@@ -1,0 +1,1907 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Under the Mark — planned and actual, side by side</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%20role%3D%22img%22%20aria-label%3D%22Under%20the%20Mark%22%3E%20%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%20%20%3Cstop%20offset%3D%220%22%20stop-color%3D%22%236B5BF0%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%234A38D6%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%20%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2215%22%20fill%3D%22url%28%23g%29%22%2F%3E%20%3Crect%20x%3D%2212%22%20y%3D%2223%22%20width%3D%2240%22%20height%3D%223.4%22%20rx%3D%221.7%22%20fill%3D%22%23fff%22%2F%3E%20%3Crect%20x%3D%2224.5%22%20y%3D%2234%22%20width%3D%2215%22%20height%3D%2218%22%20rx%3D%223%22%20fill%3D%22%23fff%22%20opacity%3D%22.95%22%2F%3E%3C%2Fsvg%3E">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%20role%3D%22img%22%20aria-label%3D%22Under%20the%20Mark%22%3E%20%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%20%20%3Cstop%20offset%3D%220%22%20stop-color%3D%22%236B5BF0%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%234A38D6%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%20%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2215%22%20fill%3D%22url%28%23g%29%22%2F%3E%20%3Crect%20x%3D%2212%22%20y%3D%2223%22%20width%3D%2240%22%20height%3D%223.4%22%20rx%3D%221.7%22%20fill%3D%22%23fff%22%2F%3E%20%3Crect%20x%3D%2224.5%22%20y%3D%2234%22%20width%3D%2215%22%20height%3D%2218%22%20rx%3D%223%22%20fill%3D%22%23fff%22%20opacity%3D%22.95%22%2F%3E%3C%2Fsvg%3E">
+<meta name="description" content="Under the Mark is a free budget planner and expense tracker. Set a planned amount and record the actual for every line, import a bank CSV, and see the difference in one place. Includes cheaper alternatives for services you already pay for. Built by Amcon Ceylon.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F5F6FA; --card:#FFFFFF; --card-2:#FAFAFD;
+  --deep:#171A2B; --deep-2:#0E111C; --deep-3:#262C47;
+  --accent:#5646E4; --accent-2:#7A6CF0; --accent-soft:#EDEBFD; --accent-line:#CFC9FA;
+  --ink:#171A2B; --muted:#606780; --faint:#8B92AC;
+  --rule:#E4E6EF; --rule-2:#EFF0F6;
+  --good:#0F8F5F; --good-soft:#E3F4EC; --good-line:#B9E2CE;
+  --bad:#D63A2B; --bad-soft:#FCE8E5; --bad-line:#F3C7C1;
+  --warn:#B07E09; --warn-soft:#FBF1DA; --warn-line:#EBD7A3;
+  --mono:'JetBrains Mono',ui-monospace,Menlo,monospace;
+  --body:'Inter',system-ui,-apple-system,sans-serif;
+  --display:'Bricolage Grotesque','Inter',system-ui,sans-serif;
+  --sh:0 1px 2px rgba(23,26,43,.04), 0 12px 32px -24px rgba(23,26,43,.45);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.5;
+  -webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:var(--display);font-weight:700;letter-spacing:-.02em;margin:0}
+button{font-family:inherit;cursor:pointer}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:3px}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.hide{display:none!important}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+
+/* shell */
+.app{display:grid;grid-template-columns:240px 1fr;min-height:100vh}
+.side{background:linear-gradient(178deg,var(--deep) 0%,var(--deep-2) 100%);color:#B9BFD6;
+  padding:22px 0;position:sticky;top:0;height:100vh;overflow-y:auto;display:flex;flex-direction:column}
+.logo{font-family:var(--display);font-weight:800;font-size:19px;letter-spacing:-.03em;color:#fff;
+  padding:0 22px 20px;display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo:hover{color:#fff;opacity:.88}
+.logo .m{width:26px;height:26px;display:grid;place-items:center;flex:none}
+.logo .m svg{display:block;border-radius:7px}
+.navgrp{padding:14px 22px 6px;font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;
+  text-transform:uppercase;color:#5D6584}
+.nav{display:block;width:100%;text-align:left;background:none;border:0;color:#B9BFD6;padding:9px 22px;
+  font-size:14.5px;border-left:3px solid transparent;transition:background .12s}
+.nav:hover{background:rgba(255,255,255,.05);color:#fff}
+.nav.on{background:rgba(86,70,228,.22);border-left-color:var(--accent-2);color:#fff;font-weight:600}
+.nav .badge{float:right;font-family:var(--mono);font-size:11px;color:#7D85A3}
+.side-foot{margin-top:auto;padding:18px 22px 0;border-top:1px solid rgba(255,255,255,.08);
+  font-size:12px;color:#7D85A3;line-height:1.6}
+.side-foot a{color:#B9AEFB;text-decoration:none;font-weight:600}
+.side-foot a:hover{text-decoration:underline}
+
+.main{padding:0;min-width:0;display:flex;flex-direction:column}
+.topbar{background:var(--card);border-bottom:1px solid var(--rule);padding:13px 30px;display:flex;
+  align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;position:sticky;top:0;z-index:20}
+.period{display:flex;align-items:center;gap:8px}
+.period .lbl{font-family:var(--display);font-weight:700;font-size:19px;min-width:152px;text-align:center}
+.icobtn{width:32px;height:32px;border:1px solid var(--rule);background:var(--card);border-radius:7px;
+  display:grid;place-items:center;font-size:15px;color:var(--muted)}
+.icobtn:hover{border-color:var(--accent);color:var(--accent)}
+.topright{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--muted)}
+.saved{font-family:var(--mono);font-size:11.5px;padding:4px 10px;border-radius:100px;
+  background:var(--good-soft);color:var(--good)}
+.content{padding:26px 30px;max-width:1200px;flex:1}
+
+/* cards */
+.card{background:var(--card);border:1px solid var(--rule);border-radius:10px;box-shadow:var(--sh);margin-bottom:20px}
+.card-h{padding:16px 20px;border-bottom:1px solid var(--rule-2);display:flex;align-items:center;
+  justify-content:space-between;gap:14px;flex-wrap:wrap}
+.card-h h3{font-size:16.5px}
+.card-h .sub{font-size:13px;color:var(--muted);margin-top:2px}
+.card-b{padding:20px}
+.btn{background:var(--accent);color:#fff;border:1px solid var(--accent);border-radius:7px;padding:9px 15px;
+  font-size:13.5px;font-weight:600}
+.btn:hover{background:var(--accent-2);border-color:var(--accent-2)}
+.btn.g{background:transparent;color:var(--ink);border-color:var(--rule)}
+.btn.g:hover{background:var(--card-2);border-color:var(--accent);color:var(--accent)}
+.btn.dark{background:var(--deep);border-color:var(--deep)}
+.btn.dark:hover{background:var(--deep-3);border-color:var(--deep-3)}
+.btn.sm{padding:6px 12px;font-size:12.5px}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.pill{font-family:var(--mono);font-size:11px;padding:3px 8px;border-radius:100px;border:1px solid var(--rule);
+  color:var(--muted);white-space:nowrap;display:inline-block}
+.pill.good{background:var(--good-soft);border-color:var(--good-line);color:var(--good)}
+.pill.bad{background:var(--bad-soft);border-color:var(--bad-line);color:var(--bad)}
+.pill.warn{background:var(--warn-soft);border-color:var(--warn-line);color:var(--warn)}
+.pill.info{background:var(--accent-soft);border-color:var(--accent-line);color:var(--accent)}
+input[type=text],input[type=number],input[type=date],select{border:1px solid var(--rule);background:var(--card);
+  border-radius:7px;padding:8px 10px;font-size:13.5px;color:var(--ink);width:100%;font-family:inherit}
+input[type=number]{font-family:var(--mono);text-align:right}
+input:focus{border-color:var(--accent)}
+label.fl{display:block;font-size:12px;font-weight:600;color:var(--muted);margin-bottom:5px}
+.empty{padding:32px 20px;text-align:center;color:var(--muted);font-size:14px}
+
+/* kpis */
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(196px,1fr));gap:14px;margin-bottom:20px}
+.kpi{background:var(--card);border:1px solid var(--rule);border-radius:10px;padding:16px 18px;box-shadow:var(--sh)}
+.kpi .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
+.kpi .pair{display:flex;align-items:baseline;gap:10px;margin:8px 0 3px;flex-wrap:wrap}
+.kpi .v{font-family:var(--mono);font-weight:700;font-size:25px;letter-spacing:-.03em}
+.kpi .p{font-family:var(--mono);font-size:13px;color:var(--faint)}
+.kpi .d{font-size:12.5px;color:var(--muted)}
+.kpi.hero{background:linear-gradient(150deg,var(--deep) 0%,var(--deep-3) 120%);border-color:var(--deep);color:#fff}
+.kpi.hero .k{color:#9AA2C2}.kpi.hero .v{font-size:30px}.kpi.hero .p{color:#7D85A3}.kpi.hero .d{color:#B9BFD6}
+
+/* flow */
+.flow-row{display:flex;align-items:center;gap:12px;margin-bottom:9px}
+.flow-tag{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);
+  width:60px;flex:none;text-align:right}
+.flow-track{flex:1;height:26px;border-radius:6px;overflow:hidden;display:flex;background:var(--rule-2);min-width:0}
+.flow-track.plan{height:13px;background:transparent;border:1px dashed var(--rule);border-radius:5px;padding:1px;gap:1px}
+.seg{height:100%;display:grid;place-items:center;overflow:hidden}
+.seg span{font-family:var(--mono);font-size:10.5px;color:#fff;padding:0 6px;white-space:nowrap}
+.seg.exp{background:var(--bad)}.seg.sav{background:var(--accent)}.seg.left{background:var(--good)}
+.seg.over{background:repeating-linear-gradient(45deg,#D63A2B,#D63A2B 5px,#A82A1E 5px,#A82A1E 10px)}
+.flow-track.plan .seg{opacity:.3;border-radius:4px}
+.flow-key{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:14px;padding-left:72px}
+.flow-key div{font-size:12.5px;color:var(--muted);display:flex;align-items:center;gap:6px}
+.flow-key i{width:9px;height:9px;border-radius:3px;display:block}
+
+/* tables */
+.tw{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+th{text-align:left;font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--faint);font-weight:400;padding:9px 14px;border-bottom:1px solid var(--rule);white-space:nowrap}
+td{padding:9px 14px;border-bottom:1px solid var(--rule-2);vertical-align:middle}
+tfoot td{font-weight:700;border-top:2px solid var(--rule);border-bottom:0;padding-top:12px}
+td.name{font-weight:500}
+.bar{height:5px;background:var(--rule-2);border-radius:100px;overflow:hidden;min-width:66px;margin-top:5px}
+.bar i{display:block;height:100%;border-radius:100px}
+.rowdel{background:none;border:0;color:var(--faint);font-size:16px;padding:2px 6px;line-height:1}
+.rowdel:hover{color:var(--bad)}
+
+/* --- the plan grid: category block with line items --- */
+.catblock{border:1px solid var(--rule);border-radius:10px;background:var(--card);margin-bottom:14px;
+  box-shadow:var(--sh);overflow:hidden}
+.cathead{display:grid;grid-template-columns:1fr 118px 118px 132px 34px;gap:10px;align-items:center;
+  padding:12px 16px;background:var(--card-2);border-bottom:1px solid var(--rule-2)}
+.cathead .cn{font-family:var(--display);font-weight:700;font-size:15.5px}
+.cathead .cg{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--faint);margin-top:1px}
+.cathead .ct{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:right;font-weight:700;font-size:14px}
+.colhead{display:grid;grid-template-columns:1fr 118px 118px 132px 34px;gap:10px;padding:7px 16px;
+  border-bottom:1px solid var(--rule-2)}
+.colhead span{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--faint);text-align:right}
+.colhead span:first-child{text-align:left}
+.line{display:grid;grid-template-columns:1fr 118px 118px 132px 34px;gap:10px;align-items:center;
+  padding:8px 16px;border-bottom:1px solid var(--rule-2)}
+.line:hover{background:var(--card-2)}
+.line input[type=text]{border-color:transparent;background:transparent;padding:6px 8px;font-weight:500}
+.line input[type=text]:hover{border-color:var(--rule)}
+.line input[type=number]{padding:6px 9px}
+.line .diff{text-align:right;font-family:var(--mono);font-size:12.5px}
+.addline{padding:9px 16px;background:var(--card-2)}
+.addline button{background:none;border:1px dashed var(--rule);color:var(--accent);border-radius:7px;
+  padding:7px 13px;font-size:13px;font-weight:600;width:100%;text-align:left}
+.addline button:hover{border-color:var(--accent);background:var(--accent-soft)}
+.loglink{background:none;border:0;color:var(--faint);font-family:var(--mono);font-size:10.5px;
+  padding:0 0 0 8px;text-decoration:underline}
+.loglink:hover{color:var(--accent)}
+.logbox{padding:2px 16px 12px 16px;background:var(--card-2);border-bottom:1px solid var(--rule-2)}
+.logrow{display:flex;gap:10px;align-items:baseline;font-family:var(--mono);font-size:11.5px;padding:2px 0;
+  color:var(--muted)}
+.logrow .ld{flex:1;border-bottom:1px dotted var(--rule)}
+.grandtotal{display:grid;grid-template-columns:1fr 118px 118px 132px 34px;gap:10px;align-items:center;
+  padding:16px;background:var(--deep);color:#fff;border-radius:10px;margin-top:4px}
+.grandtotal .gl{font-family:var(--display);font-weight:700;font-size:16px}
+.grandtotal .gv{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:right;font-weight:700;font-size:16px}
+.grandtotal .gs{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;
+  color:#8B92AC;text-align:right;display:block;font-weight:400}
+
+/* swaps */
+.needs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.need{border:1px solid var(--rule);background:var(--card);border-radius:100px;padding:7px 14px;font-size:13.5px}
+.need.on{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}
+.swap{border:1px solid var(--rule);border-radius:10px;background:var(--card);margin-bottom:14px;box-shadow:var(--sh)}
+.swap-h{padding:14px 18px;border-bottom:1px solid var(--rule-2);display:flex;justify-content:space-between;
+  align-items:center;gap:12px;flex-wrap:wrap}
+.swap-h .nm{font-family:var(--display);font-weight:700;font-size:16.5px}
+.swap-h .pr{font-family:var(--mono);font-size:14px}
+.alt{display:grid;grid-template-columns:26px 1fr 140px;gap:12px;align-items:start;padding:12px 18px;
+  border-bottom:1px solid var(--rule-2)}
+.alt:last-child{border-bottom:0}
+.alt.on{background:var(--accent-soft)}
+.alt input{width:17px;height:17px;accent-color:var(--accent);margin-top:3px}
+.alt .an{font-weight:600}
+.alt .at{font-size:12.5px;color:var(--muted);margin-top:2px}
+.alt .ap{text-align:right;font-family:var(--mono);white-space:nowrap}
+.alt .save{display:block;font-size:11.5px;color:var(--good);margin-top:2px}
+.sticky-save{position:sticky;bottom:0;background:var(--deep);color:#fff;border-radius:10px;padding:14px 18px;
+  display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;margin-top:18px;
+  box-shadow:0 -8px 24px -14px rgba(23,26,43,.6)}
+.sticky-save .t{font-size:13.5px;color:#9AA2C2}
+.sticky-save .v{font-family:var(--mono);font-weight:700;font-size:24px}
+
+/* import */
+.drop{border:1.5px dashed var(--rule);border-radius:10px;background:var(--card-2);padding:36px 20px;text-align:center}
+.drop.over{border-color:var(--accent);background:var(--accent-soft)}
+.fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px}
+.radios{display:flex;flex-wrap:wrap;gap:22px;margin-top:16px;padding-top:14px;border-top:1px solid var(--rule-2)}
+.radio{display:flex;align-items:center;gap:7px;font-size:13.5px}
+.radio input{accent-color:var(--accent)}
+.note{background:var(--warn-soft);border:1px solid var(--warn-line);border-radius:8px;padding:12px 14px;
+  font-size:13px;color:#6C4F07;margin-bottom:16px}
+.errbox{background:var(--bad-soft);border:1px solid var(--bad-line);border-radius:8px;padding:11px 14px;
+  font-size:13.5px;color:#8C2318;margin-top:14px}
+
+.spark{width:100%;height:70px;display:block}
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:var(--deep);color:#fff;
+  padding:11px 20px;border-radius:100px;font-size:13.5px;z-index:100;opacity:0;pointer-events:none;
+  transition:opacity .2s,transform .2s;box-shadow:0 12px 30px -12px rgba(23,26,43,.6)}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(-4px)}
+.split2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+
+/* exchange rate notice */
+.ratebox{background:var(--card);border:1px solid var(--rule);border-radius:10px;padding:16px 18px;
+  margin-bottom:18px;box-shadow:var(--sh);display:grid;grid-template-columns:1fr 260px;gap:18px}
+.ratebox .rl{font-size:13.5px;color:var(--muted);line-height:1.6}
+.ratebox .rl b{color:var(--ink)}
+.ratebox .ri{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:13px}
+.ratebox .ri input{width:110px}
+.ratebox .rn{font-size:12px;color:var(--faint);margin-top:7px;line-height:1.5}
+@media(max-width:820px){.ratebox{grid-template-columns:1fr}}
+
+/* inbox */
+.inbanner{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;
+  background:var(--accent-soft);border:1px solid var(--accent-line);border-radius:10px;
+  padding:14px 18px;margin-bottom:20px}
+.inbanner .it{font-size:14px;color:#3B2FA8}
+.inbanner .it b{font-family:var(--display);font-size:15.5px}
+.pend{display:grid;grid-template-columns:1fr 120px 150px 170px auto auto;gap:10px;align-items:center;
+  padding:11px 16px;border-bottom:1px solid var(--rule-2)}
+.pend:last-of-type{border-bottom:0}
+.pend .pm{font-weight:600}
+.pend .pu{font-family:var(--mono);font-size:11px;color:var(--faint);margin-top:2px;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:280px}
+.pend .pa{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:right;font-weight:700}
+.badge.hot{background:var(--accent);color:#fff;border-radius:100px;padding:1px 7px;font-weight:700}
+@media(max-width:980px){.pend{grid-template-columns:1fr 1fr}}
+
+/* credit */
+.credit{border-top:1px solid var(--rule);background:var(--card);padding:20px 30px;display:flex;
+  justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;font-size:13.5px;color:var(--muted)}
+.credit a{color:var(--accent);font-weight:600;text-decoration:none}
+.credit a:hover{text-decoration:underline}
+.credit .made{display:flex;align-items:center;gap:8px}
+.credit .dot{width:7px;height:7px;border-radius:50%;background:var(--accent);display:block}
+
+@media(max-width:980px){
+  .app{grid-template-columns:1fr}
+  .side{position:static;height:auto;padding-bottom:12px}
+  .content,.topbar,.credit{padding-left:18px;padding-right:18px}
+  .split2{grid-template-columns:1fr}
+  .flow-key{padding-left:0}
+  .cathead,.colhead,.line,.grandtotal{grid-template-columns:1fr 92px 92px 34px}
+  .colhead span:nth-child(4),.line .diff,.cathead .cd,.grandtotal .gd{display:none}
+}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="side">
+    <a class="logo" href="https://underthemark.com" target="_blank" rel="noopener"><span class="m"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="26" height="26" role="img" aria-label="Under the Mark"> <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">  <stop offset="0" stop-color="#6B5BF0"/><stop offset="1" stop-color="#4A38D6"/></linearGradient></defs> <rect width="64" height="64" rx="15" fill="url(#g)"/> <rect x="12" y="23" width="40" height="3.4" rx="1.7" fill="#fff"/> <rect x="24.5" y="34" width="15" height="18" rx="3" fill="#fff" opacity=".95"/></svg></span>Under the Mark</a>
+    <div class="navgrp">Plan &amp; track</div>
+    <button class="nav on" data-nav="dash">Dashboard</button>
+    <button class="nav" data-nav="income">Income <span class="badge" id="b-income"></span></button>
+    <button class="nav" data-nav="expenses">Expenses <span class="badge" id="b-expenses"></span></button>
+    <button class="nav" data-nav="savings">Savings <span class="badge" id="b-savings"></span></button>
+    <div class="navgrp">Spend less</div>
+    <button class="nav" data-nav="swaps">Cheaper options</button>
+    <div class="navgrp">Data</div>
+    <button class="nav" data-nav="inbox">Purchase inbox <span class="badge" id="b-inbox"></span></button>
+    <button class="nav" data-nav="import">Import CSV</button>
+    <button class="nav" data-nav="data">Backup &amp; reset</button>
+    <div class="side-foot">
+      Your figures stay on this device.<br>
+      Built by <a href="https://amconceylon.co" target="_blank" rel="noopener">Amcon Ceylon</a>
+    </div>
+  </aside>
+
+  <div class="main">
+    <div class="topbar">
+      <div class="period">
+        <button class="icobtn" data-act="prev-month" aria-label="Previous month">‹</button>
+        <div class="lbl" id="period-label">—</div>
+        <button class="icobtn" data-act="next-month" aria-label="Next month">›</button>
+        <button class="btn g sm" data-act="this-month">Today</button>
+      </div>
+      <div class="topright">
+        <span class="saved" id="savestate">Saved</span>
+        <label class="fl" for="curSel" style="margin:0">Currency</label>
+        <select id="curSel" style="width:190px"></select>
+        <input type="text" id="curCustom" class="hide" maxlength="5" placeholder="Symbol"
+               style="width:74px;text-align:center" aria-label="Your own currency symbol">
+      </div>
+    </div>
+    <div class="content" id="view"></div>
+    <div class="credit">
+      <div class="made"><span class="dot"></span>Under the Mark — a free budget planner by
+        <a href="https://amconceylon.co" target="_blank" rel="noopener">Amcon Ceylon</a></div>
+      <div>underthemark.com · Digital product studio, Colombo ·
+        <a href="https://amconceylon.co" target="_blank" rel="noopener">amconceylon.co</a></div>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ==================== CORE START ====================
+   Pure functions, no DOM. Unit tested.
+   ==================================================== */
+function detectDelimiter(t){
+  const s=t.split(/\r?\n/).slice(0,12).join("\n");
+  let best=",",bs=-1;
+  for(const d of [",",";","\t","|"]){
+    let q=false,c=0;
+    for(let i=0;i<s.length;i++){const ch=s[i];if(ch==='"'){q=!q;continue;}if(!q&&ch===d)c++;}
+    if(c>bs){bs=c;best=d;}
+  }
+  return best;
+}
+function parseCSV(text,delim){
+  text=String(text).replace(/^\uFEFF/,"");
+  const d=delim||detectDelimiter(text);
+  const rows=[];let row=[],f="",q=false;
+  for(let i=0;i<text.length;i++){
+    const c=text[i];
+    if(q){ if(c==='"'){ if(text[i+1]==='"'){f+='"';i++;} else q=false; } else f+=c; }
+    else if(c==='"') q=true;
+    else if(c===d){row.push(f);f="";}
+    else if(c==='\n'){row.push(f);rows.push(row);row=[];f="";}
+    else if(c==='\r'){}
+    else f+=c;
+  }
+  if(f.length||row.length){row.push(f);rows.push(row);}
+  return rows.map(r=>r.map(v=>v.trim())).filter(r=>r.some(v=>v!==""));
+}
+function parseAmount(raw){
+  if(raw===null||raw===undefined)return null;
+  let s=String(raw).trim();if(!s)return null;
+  let neg=false;
+  if(/^\(.*\)$/.test(s)){neg=true;s=s.slice(1,-1);}
+  if(/-\s*$/.test(s)){neg=true;s=s.replace(/-\s*$/,"");}
+  s=s.replace(/[^\d.,\-]/g,"");
+  if(!s||!/\d/.test(s))return null;
+  if(/^-/.test(s))neg=true;
+  s=s.replace(/-/g,"");
+  const ld=s.lastIndexOf("."),lc=s.lastIndexOf(",");
+  if(ld>-1&&lc>-1){ s = lc>ld ? s.replace(/\./g,"").replace(",",".") : s.replace(/,/g,""); }
+  else if(lc>-1){ const t=s.length-lc-1; s=(t===1||t===2)?s.replace(",","."):s.replace(/,/g,""); }
+  else if(ld>-1){ const t=s.length-ld-1; if(t===3&&(s.match(/\./g)||[]).length>1)s=s.replace(/\./g,""); }
+  const n=parseFloat(s);
+  return isNaN(n)?null:(neg?-n:n);
+}
+const MONTHS={jan:0,feb:1,mar:2,apr:3,may:4,jun:5,jul:6,aug:7,sep:8,sept:8,oct:9,nov:10,dec:11};
+function mkDate(y,m,d){
+  if(y<100)y+=(y>70?1900:2000);
+  if(m<0||m>11||d<1||d>31||y<1900||y>2200)return null;
+  const dt=new Date(Date.UTC(y,m,d));
+  return (dt.getUTCMonth()===m&&dt.getUTCDate()===d)?dt:null;
+}
+function parseDate(raw,fmt){
+  if(raw===null||raw===undefined)return null;
+  const s=String(raw).trim();
+  if(!s||s.length<6)return null;
+  let m;
+  if((m=s.match(/^(\d{4})[-\/.](\d{1,2})[-\/.](\d{1,2})/)))return mkDate(+m[1],+m[2]-1,+m[3]);
+  if((m=s.match(/^(\d{1,2})[\s\-\/.]([A-Za-z]{3,9})[\s\-\/.](\d{2,4})/))){
+    const mo=MONTHS[m[2].slice(0,4).toLowerCase()]??MONTHS[m[2].slice(0,3).toLowerCase()];
+    return mo===undefined?null:mkDate(+m[3],mo,+m[1]);
+  }
+  if((m=s.match(/^([A-Za-z]{3,9})[\s\-\/.](\d{1,2}),?[\s\-\/.]*(\d{2,4})/))){
+    const mo=MONTHS[m[1].slice(0,4).toLowerCase()]??MONTHS[m[1].slice(0,3).toLowerCase()];
+    return mo===undefined?null:mkDate(+m[3],mo,+m[2]);
+  }
+  if((m=s.match(/^(\d{1,2})[-\/.](\d{1,2})[-\/.](\d{2,4})/))){
+    const a=+m[1],b=+m[2],y=+m[3];
+    if(fmt==='dmy')return mkDate(y,b-1,a);
+    if(fmt==='mdy')return mkDate(y,a-1,b);
+    if(a>12&&b<=12)return mkDate(y,b-1,a);
+    if(b>12&&a<=12)return mkDate(y,a-1,b);
+    return mkDate(y,a-1,b);
+  }
+  return null;
+}
+function guessDateOrder(vals){
+  let d=0,m=0;
+  for(const v of vals){
+    const x=String(v).trim().match(/^(\d{1,2})[-\/.](\d{1,2})[-\/.](\d{2,4})/);
+    if(!x)continue;
+    if(+x[1]>12)d++;
+    if(+x[2]>12)m++;
+  }
+  if(d>0&&m===0)return 'dmy';
+  if(m>0&&d===0)return 'mdy';
+  return 'auto';
+}
+const HEAD={
+  date:/^(date|dates|posted|post date|transaction date|trans date|booking date|value date)/i,
+  desc:/(descri|merchant|payee|details|narrative|memo|particular|reference|name|transaction)/i,
+  amount:/^(amount|amt|value|sum|total)/i,
+  debit:/(debit|withdraw|money out|paid out|outflow|expense|spent)/i,
+  credit:/(credit|deposit|money in|paid in|inflow|received)/i
+};
+function findHeaderRow(rows){
+  const counts={};
+  rows.slice(0,60).forEach(r=>{counts[r.length]=(counts[r.length]||0)+1;});
+  let width=0,best=0;
+  for(const k in counts){ if(counts[k]>best||(counts[k]===best&&+k>width)){best=counts[k];width=+k;} }
+  for(let i=0;i<Math.min(rows.length,40);i++){
+    if(rows[i].length===width){
+      const nums=rows[i].filter(c=>parseAmount(c)!==null).length;
+      const dts=rows[i].filter(c=>parseDate(c,'auto')!==null).length;
+      return {index:i,width,hasHeader:(nums===0&&dts===0)};
+    }
+  }
+  return {index:0,width,hasHeader:false};
+}
+function guessColumns(headers,rows){
+  const g={date:-1,desc:-1,amount:-1,debit:-1,credit:-1};
+  headers.forEach((h,i)=>{
+    const t=String(h).trim();
+    if(g.date<0&&HEAD.date.test(t))g.date=i;
+    if(g.debit<0&&HEAD.debit.test(t))g.debit=i;
+    if(g.credit<0&&HEAD.credit.test(t))g.credit=i;
+    if(g.amount<0&&HEAD.amount.test(t))g.amount=i;
+    if(g.desc<0&&HEAD.desc.test(t)&&!HEAD.date.test(t))g.desc=i;
+  });
+  const sample=rows.slice(0,40),stat=[];
+  for(let i=0;i<headers.length;i++){
+    let dates=0,nums=0,tl=0;
+    for(const r of sample){
+      const v=r[i];
+      if(v===undefined||v==="")continue;
+      if(parseDate(v,'auto'))dates++;
+      else if(parseAmount(v)!==null&&/\d/.test(v))nums++;
+      else tl+=String(v).length;
+    }
+    stat.push({i,dates,nums,tl});
+  }
+  if(g.date<0){const c=stat.slice().sort((a,b)=>b.dates-a.dates)[0];if(c&&c.dates>0)g.date=c.i;}
+  if(g.desc<0){const c=stat.slice().sort((a,b)=>b.tl-a.tl)[0];if(c&&c.tl>0)g.desc=c.i;}
+  if(g.amount<0){
+    const c=stat.filter(s=>s.i!==g.date&&s.i!==g.desc).sort((a,b)=>b.nums-a.nums)[0];
+    if(c&&c.nums>0)g.amount=c.i;
+  }
+  return g;
+}
+const PREFIXES=[
+  /^SQ\s*\*/i,/^TST\s*\*/i,/^SP\s+/i,/^PAYPAL\s*\*/i,/^PP\s*\*/i,/^PY\s*\*/i,
+  /^POS\s+(DEBIT\s+)?/i,/^DEBIT\s+CARD\s+(PURCHASE|PAYMENT)\s*[-:]?\s*/i,
+  /^CARD\s+(PURCHASE|PAYMENT)(\s+TO)?\s*[-:]?\s*/i,/^CHECKCARD\s+\d*\s*/i,
+  /^VISA\s+(PURCHASE|DEBIT|DIRECT\s+DEBIT)?\s*/i,/^MASTERCARD\s+/i,
+  /^RECURRING\s+(PAYMENT|DEBIT|CHARGE|TRANSFER)\s*[-:]?\s*/i,
+  /^ACH\s+(DEBIT|WEB|PMT|PAYMENT)?\s*/i,/^AUTOPAY\s*[-:]?\s*/i,
+  /^DIRECT\s+DEBIT\s*[-:]?\s*/i,/^STANDING\s+ORDER\s*[-:]?\s*/i,
+  /^PURCHASE\s+AUTHORIZED\s+ON\s+\d{1,2}\/\d{1,2}\s*/i,
+  /^(WWW\.|HTTPS?:\/\/)/i,/^EIG\s*\*/i,/^WL\s*\*/i,/^IN\s*\*/i,/^DD\s*\*/i
+];
+const BRANDS=[
+  [/AMAZON\s*PRIME|PRIME\s*VIDEO|AMZN\s*PRIME/i,"Amazon Prime"],
+  [/^AMZN\s*MKTP|^AMAZON(\s|\.|$)|^AMZN\b/i,"Amazon"],
+  [/APPLE\.?COM\/?BILL|^APL\s*\*|^APPLE\b/i,"Apple"],
+  [/YOUTUBE\s*\*?\s*PREMIUM|YOUTUBEPREMIUM/i,"YouTube Premium"],
+  [/GOOGLE\s*\*?\s*(ONE|STORAGE)\b/i,"Google One"],
+  [/^GOOGLE\b|^GOOGLE\s*\*/i,"Google"],
+  [/MSFT\s*\*|MICROSOFT\s*365|^MICROSOFT\b/i,"Microsoft"],
+  [/NETFLIX/i,"Netflix"],[/SPOTIFY/i,"Spotify"],[/ADOBE/i,"Adobe"],
+  [/^DROPBOX\b|DROPBOX\*/i,"Dropbox"],[/^UBER\s*\*?\s*EATS/i,"Uber Eats"],[/^UBER\b/i,"Uber"],
+  [/^HULU\b/i,"Hulu"],[/DISNEY\s*(PLUS|\+)?/i,"Disney+"],[/AUDIBLE/i,"Audible"],
+  [/PLANET\s*FIT/i,"Planet Fitness"],[/ANYTIME\s*FIT/i,"Anytime Fitness"],
+  [/SIRIUS\s*XM|SIRIUSXM/i,"SiriusXM"],[/COMCAST|XFINITY/i,"Xfinity"],[/VERIZON/i,"Verizon"]
+];
+const KEEP_CAPS=new Set(["BBC","HBO","NYT","IBM","KFC","MTA","DMV","CVS","AMC","NBC","ABC","CBS","ESPN","BP","TV","PC","UK","EU","US","IT"]);
+function brandHit(s){ for(const b of BRANDS){ if(b[0].test(s)) return b[1]; } return null; }
+function cleanMerchant(raw){
+  if(!raw)return "Unknown";
+  let s=String(raw).trim(),ch=true,g=0;
+  while(ch&&g++<6){ ch=false; for(const p of PREFIXES){ if(p.test(s)){s=s.replace(p,"");ch=true;} } }
+  const hit=brandHit(s)||brandHit(String(raw));
+  if(hit)return hit;
+  s=s.replace(/\b\d{3}[-.\s]?\d{3}[-.\s]?\d{4}\b/g," ")
+     .replace(/\b\d{1,2}[\/\-]\d{1,2}([\/\-]\d{2,4})?\b/g," ")
+     .replace(/[#*]\s?[A-Za-z0-9]{2,}/g," ")
+     .replace(/\b(?=[A-Za-z0-9]*\d[A-Za-z0-9]*\d)(?=[A-Za-z0-9]*[A-Za-z])[A-Za-z0-9]{4,}\b/g," ")
+     .replace(/\bX{2,}\d*\b/gi," ").replace(/\b\d{4,}\b/g," ")
+     .replace(/\.(COM|NET|ORG|CO|IO|APP|TV|ME|LK|RU|UK)\b/gi," ")
+     .replace(/[^A-Za-z0-9&'’\- ]/g," ").replace(/\s+/g," ").trim();
+  for(let i=0;i<4;i++){
+    s=s.replace(/\s+(USA|USD|GBR|GBP|EUR|INTL|INC|LLC|LTD|LIMITED|CORP|STORE)$/i,"")
+       .replace(/\s+\d{1,4}(ST|ND|RD|TH)$/i,"").replace(/\s+[A-Z]{2}$/,"")
+       .replace(/\s+\d{1,3}$/,"").replace(/\s*[-–]\s*$/,"").trim();
+  }
+  if(!s)s=(String(raw).replace(/[^A-Za-z ]/g," ").trim().split(/\s+/)[0]||"Unknown");
+  return s.split(" ").map(w=>KEEP_CAPS.has(w.toUpperCase())?w.toUpperCase()
+    :w.charAt(0).toUpperCase()+w.slice(1).toLowerCase()).join(" ");
+}
+const RULES=[
+  [/netflix|hulu|disney|spotify|youtube premium|siriusxm|audible|prime video|hbo|max\b|paramount|peacock|apple tv/i,'streaming'],
+  [/adobe|microsoft|google one|dropbox|icloud|figma|canva|notion|slack|zoom|godaddy|namecheap|vercel|hosting/i,'software'],
+  [/gym|fitness|planet fit|anytime|crossfit|yoga|classpass/i,'gym'],
+  [/uber eats|doordash|grubhub|deliveroo|just eat|restaurant|cafe|coffee|starbucks|mcdonald|kfc|pizza|chipotle|sweetgreen|burger/i,'eatingout'],
+  [/grocer|market|supermarket|tesco|aldi|lidl|kroger|safeway|walmart|trader joe|whole ?foods|sainsbury|costco/i,'groceries'],
+  [/shell|exxon|chevron|petrol|fuel|gas station|texaco/i,'fuel'],
+  [/uber|lyft|taxi|metro|transit|railway|train|parking/i,'transport'],
+  [/rent|landlord|mortgage/i,'rent'],
+  [/electric|water|gas bill|utility|utilities|council tax/i,'utilities'],
+  [/internet|broadband|fibre|fiber|comcast|xfinity|spectrum|fios/i,'internet'],
+  [/mobile|phone|airtel|vodafone|t-mobile|at&t|dialog|mint mobile|verizon/i,'phone'],
+  [/pharmacy|cvs|walgreens|doctor|dental|clinic|hospital|medical/i,'health'],
+  [/insurance|assurance/i,'insurance'],
+  [/amazon|target|ebay|aliexpress|shein|zara|h&m|clothing/i,'shopping'],
+  [/loan|credit card payment|finance charge|interest/i,'debt'],
+  [/salary|payroll|direct dep|wages/i,'salary'],
+  [/upwork|fiverr|freelance|invoice|stripe/i,'freelance'],
+  [/transfer to savings|savings deposit|vanguard|fidelity|index fund|etf/i,'invest']
+];
+function autoCategory(text){
+  const t=String(text||"");
+  for(const r of RULES){ if(r[0].test(t)) return r[1]; }
+  return null;
+}
+const periodOf=iso=>String(iso).slice(0,7);
+function shiftMonth(period,delta){
+  const [y,m]=period.split("-").map(Number);
+  return new Date(Date.UTC(y,m-1+delta,1)).toISOString().slice(0,7);
+}
+function monthsBack(period,n){
+  const [y,m]=period.split("-").map(Number);
+  const out=[];
+  for(let i=n-1;i>=0;i--) out.push(new Date(Date.UTC(y,m-1-i,1)).toISOString().slice(0,7));
+  return out;
+}
+
+/* ---- budget maths over line items ----
+   Every line has its own planned and actual figure. Category and grand
+   totals are just sums, so the two plans always stay in step. */
+function computeTotals(state,period){
+  const items=state.items.filter(i=>i.period===period);
+  const byCat={}, byType={income:{planned:0,actual:0},expense:{planned:0,actual:0},saving:{planned:0,actual:0}};
+  items.forEach(i=>{
+    const p=+i.planned||0, a=+i.actual||0;
+    if(!byCat[i.catId])byCat[i.catId]={planned:0,actual:0,items:[]};
+    byCat[i.catId].planned+=p; byCat[i.catId].actual+=a; byCat[i.catId].items.push(i);
+    if(!byType[i.type])byType[i.type]={planned:0,actual:0};
+    byType[i.type].planned+=p; byType[i.type].actual+=a;
+  });
+  return {
+    items, byCat, byType,
+    resultPlanned: byType.income.planned-byType.expense.planned-byType.saving.planned,
+    resultActual:  byType.income.actual -byType.expense.actual -byType.saving.actual
+  };
+}
+/* Expenses want actual at or under plan. Income and savings want the opposite. */
+function varianceStatus(type,plan,actual){
+  const diff=actual-plan;
+  if(!plan&&!actual)return {label:"—",kind:"",diff:0};
+  if(!plan)return {label:"no plan set",kind:"warn",diff};
+  const pct=diff/plan;
+  if(type==='expense'){
+    if(pct>0.02)return {label:"over by "+Math.round(pct*100)+"%",kind:"bad",diff};
+    if(pct<-0.02)return {label:"under by "+Math.round(-pct*100)+"%",kind:"good",diff};
+  } else {
+    if(pct<-0.02)return {label:"short by "+Math.round(-pct*100)+"%",kind:"bad",diff};
+    if(pct>0.02)return {label:"ahead by "+Math.round(pct*100)+"%",kind:"good",diff};
+  }
+  return {label:"on plan",kind:"good",diff};
+}
+/* Old saves stored dated entries and category-level plans. Fold them into lines. */
+function migrate(old,newId){
+  if(!old)return null;
+  if(old.items)return old;
+  if(!old.entries)return null;
+  const items=[],idx={};
+  (old.entries||[]).forEach(e=>{
+    const period=periodOf(e.date);
+    const name=e.label||"Item";
+    const key=period+"|"+e.catId+"|"+name;
+    if(!idx[key]){
+      idx[key]={id:newId(),period,type:e.type,catId:e.catId,name,planned:0,actual:0,log:[]};
+      items.push(idx[key]);
+    }
+    idx[key].actual+=e.amount;
+    idx[key].log.push({date:e.date,label:e.label,amount:e.amount});
+  });
+  const plans=old.plans||{};
+  Object.keys(plans).forEach(period=>{
+    Object.keys(plans[period]).forEach(catId=>{
+      const val=+plans[period][catId]||0;
+      if(!val)return;
+      const mine=items.filter(i=>i.period===period&&i.catId===catId);
+      if(mine.length){ mine[0].planned+=val; }
+      else{
+        const cat=(old.cats||[]).find(c=>c.id===catId);
+        items.push({id:newId(),period,type:cat?cat.type:'expense',catId,
+          name:cat?cat.name:'Planned',planned:val,actual:0,log:[]});
+      }
+    });
+  });
+  return {v:2,cur:old.cur||"$",cats:old.cats||[],items,switches:old.switches||{}};
+}
+
+if(typeof module!=='undefined'&&module.exports){
+  module.exports={parseCSV,parseAmount,parseDate,guessDateOrder,guessColumns,findHeaderRow,cleanMerchant,
+    autoCategory,computeTotals,varianceStatus,shiftMonth,monthsBack,periodOf,migrate};
+}
+/* ==================== CORE END ==================== */
+
+/* ============ SERVICE DATABASE — prices are starting values, not verified ============ */
+const NEEDS=[
+  {id:'movies',label:'Watch movies & TV'},{id:'music',label:'Listen to music'},
+  {id:'cloud',label:'Store files online'},{id:'design',label:'Design & photo'},
+  {id:'office',label:'Documents'},{id:'gym',label:'Get fit'},
+  {id:'books',label:'Books & audiobooks'},{id:'vpn',label:'VPN & privacy'},
+  {id:'password',label:'Password manager'},{id:'games',label:'Games'},
+  {id:'phone',label:'Mobile plan'},{id:'web',label:'Website & hosting'},
+  {id:'news',label:'News & reading'},{id:'delivery',label:'Food delivery'},
+  {id:'learning',label:'Courses & languages'},{id:'wellbeing',label:'Health & wellbeing'},
+  {id:'security',label:'Antivirus & security'},{id:'business',label:'Running a business'},
+  {id:'shopping',label:'Shopping memberships'},
+  {id:'dating',label:'Dating apps'}
+];
+const SERVICES=[
+ {n:'Netflix',need:'movies',match:/netflix/i,price:17.99,alts:[
+   {n:'Netflix Standard with ads',p:7.99,t:'Same catalogue, ads between shows',k:'downgrade'},
+   {n:'Tubi',p:0,t:'Free with ads. Older catalogue, no originals',k:'free'},
+   {n:'Pluto TV',p:0,t:'Free live channels and on-demand. No new releases',k:'free'},
+   {n:'Kanopy / Hoopla',p:0,t:'Free with a library card. Limited monthly credits',k:'free'}]},
+ {n:'Disney+',need:'movies',match:/disney/i,price:15.99,alts:[
+   {n:'Disney+ Basic with ads',p:9.99,t:'Same library with ad breaks',k:'downgrade'},
+   {n:'Annual plan',p:13.33,t:'Pay once a year instead of monthly',k:'annual'}]},
+ {n:'Hulu',need:'movies',match:/hulu/i,price:18.99,alts:[
+   {n:'Hulu with ads',p:9.99,t:'Same shows, ad breaks',k:'downgrade'},
+   {n:'Bundle with Disney+',p:12.99,t:'Cheaper than the two separately if you want both',k:'switch'}]},
+ {n:'Max',need:'movies',match:/\bmax\b|hbo/i,price:16.99,alts:[
+   {n:'Max with ads',p:9.99,t:'Same catalogue, ads, no downloads',k:'downgrade'},
+   {n:'Annual plan',p:8.33,t:'Roughly two months free versus monthly',k:'annual'}]},
+ {n:'Apple TV+',need:'movies',match:/apple tv/i,price:9.99,alts:[
+   {n:'Annual plan',p:8.25,t:'Cheaper per month, paid yearly',k:'annual'},
+   {n:'Free trial with new devices',p:0,t:'Three months free with a new Apple device',k:'free'}]},
+ {n:'Spotify Premium',need:'music',match:/spotify/i,price:11.99,alts:[
+   {n:'Spotify Free',p:0,t:'Ads, shuffle limits on mobile, no offline',k:'free'},
+   {n:'Duo / Family plan',p:6.00,t:'Per person if you share with 1–5 people at one address',k:'switch'},
+   {n:'Deezer / Amazon Music',p:10.99,t:'Similar catalogue, slightly cheaper',k:'switch'}]},
+ {n:'Apple Music',need:'music',match:/apple music/i,price:10.99,alts:[
+   {n:'Student plan',p:5.99,t:'Half price with proof of enrolment',k:'downgrade'},
+   {n:'Family plan',p:2.83,t:'Per person across up to 6 people',k:'switch'},
+   {n:'Spotify Free / YouTube Music free',p:0,t:'Ads and fewer controls',k:'free'}]},
+ {n:'YouTube Premium',need:'music',match:/youtube premium/i,price:13.99,alts:[
+   {n:'Premium Lite',p:7.99,t:'Ad-free videos, no background play or Music',k:'downgrade'},
+   {n:'Family plan',p:4.65,t:'Per person across up to 5 household members',k:'switch'}]},
+ {n:'Dropbox Plus',need:'cloud',match:/dropbox/i,price:11.99,alts:[
+   {n:'pCloud 2TB lifetime',p:8.00,t:'One payment instead of monthly — pays for itself in about 3 years',k:'switch'},
+   {n:'Proton Drive',p:4.99,t:'End-to-end encrypted, fewer integrations',k:'switch'},
+   {n:'iCloud+ / Google One 2TB',p:9.99,t:'Cheaper if you already use one of those',k:'switch'}]},
+ {n:'Google One',need:'cloud',match:/google one/i,price:9.99,alts:[
+   {n:'Annual plan',p:8.33,t:'Same storage, paid yearly',k:'annual'},
+   {n:'Drop to 200GB',p:2.99,t:'Fine unless you store lots of video',k:'downgrade'},
+   {n:'Free 15GB tier',p:0,t:'Works if you clear out Gmail and Photos first',k:'free'}]},
+ {n:'iCloud+',need:'cloud',match:/icloud/i,price:9.99,alts:[
+   {n:'200GB tier',p:2.99,t:'Enough for most phone backups and photos',k:'downgrade'},
+   {n:'Family sharing',p:0,t:'Share one plan instead of separate ones',k:'switch'}]},
+ {n:'Adobe Creative Cloud',need:'design',match:/adobe/i,price:59.99,alts:[
+   {n:'Affinity suite (one-time)',p:4.15,t:'Bought outright — shown as monthly equivalent over 3 years',k:'switch'},
+   {n:'Single Adobe app',p:22.99,t:'Just Photoshop or just Illustrator',k:'downgrade'},
+   {n:'Canva Pro',p:12.99,t:'Simpler. Good for social and layouts, not pro print',k:'switch'},
+   {n:'GIMP + Inkscape + Krita',p:0,t:'Free and open source. Steeper learning curve',k:'free'},
+   {n:'Photopea',p:0,t:'Free browser editor, opens PSD files',k:'free'}]},
+ {n:'Figma',need:'design',match:/figma/i,price:16.00,alts:[
+   {n:'Figma Free',p:0,t:'3 files, unlimited drafts. Fine for solo work',k:'free'},
+   {n:'Penpot',p:0,t:'Open source, self-hostable',k:'free'}]},
+ {n:'Microsoft 365',need:'office',match:/microsoft 365|office 365|msft/i,price:9.99,alts:[
+   {n:'Annual plan',p:8.25,t:'Same thing, billed yearly',k:'annual'},
+   {n:'Family plan',p:2.16,t:'Per person across 6 people',k:'switch'},
+   {n:'LibreOffice',p:0,t:'Free, opens Office files, occasional formatting drift',k:'free'},
+   {n:'Google Docs / Sheets',p:0,t:'Free and collaborative, weaker advanced Excel',k:'free'}]},
+ {n:'Planet Fitness',need:'gym',match:/planet fit/i,price:24.99,alts:[
+   {n:'Classic tier',p:15.00,t:'Drop the Black Card if you never use the extras',k:'downgrade'},
+   {n:'Council / community gym',p:12.00,t:'Cheaper, fewer machines and shorter hours',k:'switch'},
+   {n:'Home kit (one-time)',p:5.50,t:'Dumbbells and a mat, shown as monthly over 3 years',k:'switch'},
+   {n:'Free training apps',p:0,t:'Needs self-discipline',k:'free'}]},
+ {n:'ClassPass',need:'gym',match:/classpass/i,price:79.00,alts:[
+   {n:'Lower credit tier',p:39.00,t:'Fewer classes a month',k:'downgrade'},
+   {n:'Pay per class',p:0,t:'Cheaper only if you go fewer than 4 times a month',k:'switch'}]},
+ {n:'Audible',need:'books',match:/audible/i,price:14.95,alts:[
+   {n:'Libby (library)',p:0,t:'Free with a library card. Waiting lists on popular titles',k:'free'},
+   {n:'Audible Plus',p:7.95,t:'Smaller catalogue, no monthly credit',k:'downgrade'},
+   {n:'LibriVox',p:0,t:'Free public-domain classics, volunteer narrators',k:'free'}]},
+ {n:'Kindle Unlimited',need:'books',match:/kindle unlimited/i,price:11.99,alts:[
+   {n:'Libby / Hoopla',p:0,t:'Free ebooks through your library',k:'free'},
+   {n:'Project Gutenberg',p:0,t:'Free classics, nothing recent',k:'free'}]},
+ {n:'NordVPN',need:'vpn',match:/nordvpn|nord vpn/i,price:12.99,alts:[
+   {n:'2-year plan',p:3.99,t:'Big discount for a long commitment',k:'annual'},
+   {n:'Proton VPN Free',p:0,t:'Free tier, slower, fewer countries',k:'free'},
+   {n:'Mullvad',p:5.50,t:'Flat price, strong privacy record',k:'switch'}]},
+ {n:'ExpressVPN',need:'vpn',match:/expressvpn/i,price:12.95,alts:[
+   {n:'Annual plan',p:6.67,t:'Same service, paid yearly',k:'annual'},
+   {n:'Proton VPN / Mullvad',p:5.00,t:'Cheaper, comparable speeds for most uses',k:'switch'}]},
+ {n:'1Password',need:'password',match:/1password/i,price:3.99,alts:[
+   {n:'Bitwarden Free',p:0,t:'Free forever for personal use, syncs everywhere',k:'free'},
+   {n:'Bitwarden Premium',p:0.83,t:'Adds file storage and emergency access',k:'switch'},
+   {n:'KeePassXC',p:0,t:'Free and offline. You handle your own sync',k:'free'}]},
+ {n:'Dashlane',need:'password',match:/dashlane/i,price:4.99,alts:[
+   {n:'Bitwarden Free',p:0,t:'Covers what most people need',k:'free'},
+   {n:'Proton Pass',p:0,t:'Free tier, decent apps',k:'free'}]},
+ {n:'Xbox Game Pass Ultimate',need:'games',match:/game ?pass|xbox/i,price:19.99,alts:[
+   {n:'Game Pass Standard',p:14.99,t:'Drops cloud gaming and day-one releases',k:'downgrade'},
+   {n:'PC Game Pass',p:11.99,t:'PC only',k:'downgrade'},
+   {n:'Epic free weekly games',p:0,t:'A free game every week, you keep them',k:'free'}]},
+ {n:'PlayStation Plus',need:'games',match:/playstation|ps plus/i,price:17.99,alts:[
+   {n:'Essential tier',p:7.99,t:'Online play and monthly games, no catalogue',k:'downgrade'},
+   {n:'Annual plan',p:6.66,t:'Same tier, paid yearly',k:'annual'}]},
+ {n:'Verizon / AT&T unlimited',need:'phone',match:/verizon|at&t|t-mobile/i,price:75.00,alts:[
+   {n:'Mint Mobile',p:15.00,t:'Same network coverage, prepaid, no store support',k:'switch'},
+   {n:'Visible',p:25.00,t:'Unlimited on the same towers, app-only support',k:'switch'},
+   {n:'US Mobile / Tello',p:20.00,t:'Pick your data allowance',k:'switch'}]},
+ {n:'Xfinity internet',need:'phone',match:/xfinity|comcast/i,price:79.00,alts:[
+   {n:'Lower speed tier',p:45.00,t:'100–300 Mbps is plenty for most homes',k:'downgrade'},
+   {n:'Buy your own modem',p:70.00,t:'Removes the monthly equipment rental',k:'switch'}]},
+ {n:'Squarespace',need:'web',match:/squarespace/i,price:23.00,alts:[
+   {n:'Annual plan',p:16.00,t:'Same site, paid yearly',k:'annual'},
+   {n:'Vercel or Netlify + domain',p:1.20,t:'Free hosting, you pay only for the domain',k:'switch'},
+   {n:'Cloudflare Pages',p:0,t:'Free static hosting with generous limits',k:'free'}]},
+ {n:'Wix',need:'web',match:/\bwix\b/i,price:27.00,alts:[
+   {n:'Lower plan',p:17.00,t:'Fewer features, still removes ads',k:'downgrade'},
+   {n:'Static site on Vercel',p:1.20,t:'Domain cost only. No visual editor',k:'switch'}]},
+ {n:'GoDaddy hosting',need:'web',match:/godaddy/i,price:11.99,alts:[
+   {n:'Hostinger / Namecheap',p:3.99,t:'Comparable shared hosting, cheaper renewals',k:'switch'},
+   {n:'Cloudflare Pages',p:0,t:'Free if your site is static',k:'free'}]},
+ {n:'New York Times',need:'news',match:/new york times|nytimes/i,price:17.00,alts:[
+   {n:'Introductory rate',p:4.00,t:'Ask for the retention offer before renewing',k:'downgrade'},
+   {n:'Library digital access',p:0,t:'Many libraries include it with a card',k:'free'}]},
+ {n:'Medium',need:'news',match:/medium\.com|^medium$/i,price:5.00,alts:[
+   {n:'Annual plan',p:4.17,t:'Same access, paid yearly',k:'annual'},
+   {n:'Free tier + RSS',p:0,t:'Most writers publish elsewhere too',k:'free'}]},
+ {n:'DoorDash DashPass',need:'delivery',match:/dashpass|doordash/i,price:9.99,alts:[
+   {n:'Annual plan',p:8.00,t:'Same benefits, paid yearly',k:'annual'},
+   {n:'Order pickup instead',p:0,t:'No delivery or service fees at all',k:'free'}]},
+ {n:'Uber One',need:'delivery',match:/uber one|uber eats/i,price:9.99,alts:[
+   {n:'Annual plan',p:8.25,t:'Same benefits, paid yearly',k:'annual'},
+   {n:'Cancel and cook twice a week',p:0,t:'Only pays off with 3+ orders a month',k:'free'}]},
+
+ {n:'Paramount+',need:'movies',match:/paramount/i,price:12.99,alts:[
+   {n:'Essential with ads',p:7.99,t:'Same catalogue with ad breaks',k:'downgrade'},
+   {n:'Annual plan',p:6.67,t:'Roughly two months free',k:'annual'}]},
+ {n:'Peacock',need:'movies',match:/peacock/i,price:13.99,alts:[
+   {n:'Premium with ads',p:7.99,t:'Ads, same shows',k:'downgrade'},
+   {n:'Annual plan',p:6.67,t:'Paid once a year',k:'annual'}]},
+ {n:'Crunchyroll',need:'movies',match:/crunchyroll/i,price:11.99,alts:[
+   {n:'Fan tier',p:7.99,t:'Ad-free streaming without offline viewing',k:'downgrade'},
+   {n:'Free tier',p:0,t:'Ads and a one-week delay on new episodes',k:'free'}]},
+ {n:'YouTube TV',need:'movies',match:/youtube tv/i,price:82.99,alts:[
+   {n:'Sling TV Orange',p:45.99,t:'Fewer channels, much cheaper',k:'switch'},
+   {n:'Free antenna for local channels',p:1.50,t:'One-off aerial, shown monthly over 3 years',k:'switch'}]},
+
+ {n:'Nintendo Switch Online',need:'games',match:/nintendo/i,price:3.99,alts:[
+   {n:'Annual plan',p:1.67,t:'Same tier, paid yearly',k:'annual'},
+   {n:'Family plan',p:0.92,t:'Per person across up to 8 accounts',k:'switch'}]},
+ {n:'Apple Arcade',need:'games',match:/apple arcade/i,price:6.99,alts:[
+   {n:'Family sharing',p:1.17,t:'One plan covers up to six people',k:'switch'},
+   {n:'Free-to-play catalogue',p:0,t:'Plenty of good free games, with adverts',k:'free'}]},
+
+ {n:'Norton 360',need:'security',match:/norton/i,price:12.99,alts:[
+   {n:'Windows Defender',p:0,t:'Built into Windows and rated well by independent labs',k:'free'},
+   {n:'Bitdefender / Malwarebytes',p:3.33,t:'Cheaper annual plans with similar protection',k:'switch'}]},
+ {n:'McAfee',need:'security',match:/mcafee/i,price:11.99,alts:[
+   {n:'Windows Defender',p:0,t:'Already on your machine, nothing to install',k:'free'},
+   {n:'First-year promo elsewhere',p:2.50,t:'Most rivals discount heavily for year one',k:'switch'}]},
+
+ {n:'Duolingo Super',need:'learning',match:/duolingo/i,price:12.99,alts:[
+   {n:'Annual plan',p:6.67,t:'Same features, paid yearly',k:'annual'},
+   {n:'Duolingo Free',p:0,t:'Ads and limited hearts, same lessons',k:'free'},
+   {n:'Anki + free podcasts',p:0,t:'Free flashcards and listening practice. Needs discipline',k:'free'}]},
+ {n:'Babbel',need:'learning',match:/babbel/i,price:14.95,alts:[
+   {n:'Annual plan',p:8.95,t:'Same course, paid yearly',k:'annual'},
+   {n:'Duolingo Free',p:0,t:'Less structured but free',k:'free'}]},
+ {n:'MasterClass',need:'learning',match:/masterclass/i,price:15.00,alts:[
+   {n:'Skillshare',p:8.25,t:'Practical classes rather than celebrity names',k:'switch'},
+   {n:'YouTube and library courses',p:0,t:'Free, less polished',k:'free'}]},
+ {n:'Coursera Plus',need:'learning',match:/coursera/i,price:59.00,alts:[
+   {n:'Annual plan',p:33.25,t:'Same access, paid yearly',k:'annual'},
+   {n:'Audit courses free',p:0,t:'Watch everything free, pay only if you want the certificate',k:'free'}]},
+ {n:'Chegg',need:'learning',match:/chegg/i,price:19.95,alts:[
+   {n:'Library and campus access',p:0,t:'Most textbooks are available free through your institution',k:'free'},
+   {n:'Khan Academy',p:0,t:'Free explanations across most school subjects',k:'free'}]},
+
+ {n:'Calm',need:'wellbeing',match:/\bcalm\b/i,price:14.99,alts:[
+   {n:'Annual plan',p:5.83,t:'Same app, paid yearly',k:'annual'},
+   {n:'Insight Timer',p:0,t:'Large free meditation library',k:'free'},
+   {n:'Free sleep sounds',p:0,t:'Plenty on YouTube and Spotify already',k:'free'}]},
+ {n:'Headspace',need:'wellbeing',match:/headspace/i,price:12.99,alts:[
+   {n:'Annual plan',p:5.83,t:'Same app, paid yearly',k:'annual'},
+   {n:'Insight Timer / Smiling Mind',p:0,t:'Free guided meditation',k:'free'}]},
+ {n:'Strava',need:'wellbeing',match:/strava/i,price:11.99,alts:[
+   {n:'Annual plan',p:6.67,t:'Same features, paid yearly',k:'annual'},
+   {n:'Strava Free',p:0,t:'Still records everything. You lose the deeper analysis',k:'free'},
+   {n:'Garmin Connect / Apple Fitness',p:0,t:'Free with hardware you already own',k:'free'}]},
+ {n:'Peloton',need:'wellbeing',match:/peloton/i,price:44.00,alts:[
+   {n:'App One tier',p:12.99,t:'Classes without the equipment tie-in',k:'downgrade'},
+   {n:'YouTube instructors',p:0,t:'Free classes, no tracking or leaderboards',k:'free'}]},
+ {n:'HelloFresh',need:'delivery',match:/hellofresh|blue apron|meal kit/i,price:80.00,alts:[
+   {n:'Fewer boxes a month',p:40.00,t:'Two boxes instead of four',k:'downgrade'},
+   {n:'Plan and shop yourself',p:0,t:'Same meals for roughly half, costs you an hour a week',k:'switch'}]},
+
+ {n:'LinkedIn Premium',need:'business',match:/linkedin/i,price:39.99,alts:[
+   {n:'Annual plan',p:29.99,t:'Same tier, paid yearly',k:'annual'},
+   {n:'Free account',p:0,t:'You lose InMail and who-viewed-you, keep everything else',k:'free'}]},
+ {n:'Grammarly',need:'business',match:/grammarly/i,price:30.00,alts:[
+   {n:'Annual plan',p:12.00,t:'Less than half the monthly rate when billed yearly',k:'annual'},
+   {n:'Grammarly Free',p:0,t:'Spelling and basic grammar, no tone or rewrite tools',k:'free'},
+   {n:'LanguageTool',p:4.99,t:'Open source core, supports more languages',k:'switch'}]},
+ {n:'Mailchimp',need:'business',match:/mailchimp/i,price:20.00,alts:[
+   {n:'MailerLite',p:9.00,t:'Similar features, cheaper at small list sizes',k:'switch'},
+   {n:'Brevo free tier',p:0,t:'Free up to a daily send limit',k:'free'}]},
+ {n:'QuickBooks',need:'business',match:/quickbooks|intuit/i,price:30.00,alts:[
+   {n:'Wave',p:0,t:'Free invoicing and bookkeeping for small businesses',k:'free'},
+   {n:'Zoho Books',p:15.00,t:'Cheaper, capable, smaller accountant network',k:'switch'}]},
+ {n:'Zoom Pro',need:'business',match:/\bzoom\b/i,price:15.99,alts:[
+   {n:'Annual plan',p:13.32,t:'Same plan, paid yearly',k:'annual'},
+   {n:'Google Meet / Zoom free',p:0,t:'Free calls with a time limit per meeting',k:'free'}]},
+ {n:'Notion Plus',need:'business',match:/notion/i,price:12.00,alts:[
+   {n:'Annual plan',p:10.00,t:'Same plan, paid yearly',k:'annual'},
+   {n:'Notion Free',p:0,t:'Unlimited personal pages. You lose version history and guests',k:'free'},
+   {n:'Obsidian',p:0,t:'Free and local. No live collaboration',k:'free'}]},
+ {n:'Canva Pro',need:'design',match:/canva/i,price:15.00,alts:[
+   {n:'Annual plan',p:10.00,t:'Same plan, paid yearly',k:'annual'},
+   {n:'Canva Free',p:0,t:'Most templates still work. You lose brand kit and background remover',k:'free'}]},
+
+ {n:'Amazon Prime',need:'shopping',match:/amazon prime|prime membership/i,price:14.99,alts:[
+   {n:'Annual plan',p:11.58,t:'Same membership, paid yearly',k:'annual'},
+   {n:'Prime Video only',p:8.99,t:'Streaming without the free delivery',k:'downgrade'},
+   {n:'Free delivery thresholds',p:0,t:'Most orders ship free above a minimum spend anyway',k:'free'}]},
+ {n:'Walmart+',need:'shopping',match:/walmart\+|walmart plus/i,price:12.95,alts:[
+   {n:'Annual plan',p:8.25,t:'Same membership, paid yearly',k:'annual'},
+   {n:'Store pickup',p:0,t:'Free without any membership',k:'free'}]},
+ {n:'Instacart+',need:'shopping',match:/instacart/i,price:9.99,alts:[
+   {n:'Annual plan',p:8.25,t:'Same benefits, paid yearly',k:'annual'},
+   {n:'Shop in person',p:0,t:'No service fees or markup on items',k:'free'}]},
+
+ {n:'Tinder Plus',need:'dating',match:/tinder|bumble premium/i,price:19.99,alts:[
+   {n:'Annual plan',p:9.17,t:'Same tier, paid yearly',k:'annual'},
+   {n:'Free tier',p:0,t:'Fewer likes a day, same matching',k:'free'}]}
+];
+
+/* ============ CURRENCIES ============ */
+const CURRENCIES=[
+ {c:'USD',s:'$',n:'US Dollar',top:1},{c:'EUR',s:'€',n:'Euro',top:1},
+ {c:'GBP',s:'£',n:'British Pound',top:1},{c:'LKR',s:'Rs',n:'Sri Lankan Rupee',top:1},
+ {c:'INR',s:'₹',n:'Indian Rupee',top:1},{c:'RUB',s:'₽',n:'Russian Ruble',top:1},
+ {c:'AUD',s:'A$',n:'Australian Dollar',top:1},{c:'CAD',s:'C$',n:'Canadian Dollar',top:1},
+ {c:'JPY',s:'¥',n:'Japanese Yen',top:1},{c:'CNY',s:'¥',n:'Chinese Yuan',top:1},
+ {c:'AED',s:'AED ',n:'UAE Dirham',top:1},{c:'SGD',s:'S$',n:'Singapore Dollar',top:1},
+ {c:'ARS',s:'$',n:'Argentine Peso'},{c:'BDT',s:'৳',n:'Bangladeshi Taka'},
+ {c:'BHD',s:'BD ',n:'Bahraini Dinar'},{c:'BRL',s:'R$',n:'Brazilian Real'},
+ {c:'CHF',s:'CHF ',n:'Swiss Franc'},{c:'CLP',s:'$',n:'Chilean Peso'},
+ {c:'COP',s:'$',n:'Colombian Peso'},{c:'CZK',s:'Kč',n:'Czech Koruna'},
+ {c:'DKK',s:'kr',n:'Danish Krone'},{c:'EGP',s:'E£',n:'Egyptian Pound'},
+ {c:'ETB',s:'Br',n:'Ethiopian Birr'},{c:'GHS',s:'₵',n:'Ghanaian Cedi'},
+ {c:'HKD',s:'HK$',n:'Hong Kong Dollar'},{c:'HUF',s:'Ft',n:'Hungarian Forint'},
+ {c:'IDR',s:'Rp',n:'Indonesian Rupiah'},{c:'ILS',s:'₪',n:'Israeli Shekel'},
+ {c:'JOD',s:'JD ',n:'Jordanian Dinar'},{c:'KES',s:'KSh',n:'Kenyan Shilling'},
+ {c:'KRW',s:'₩',n:'South Korean Won'},{c:'KWD',s:'KD ',n:'Kuwaiti Dinar'},
+ {c:'KZT',s:'₸',n:'Kazakhstani Tenge'},{c:'MAD',s:'DH ',n:'Moroccan Dirham'},
+ {c:'MXN',s:'$',n:'Mexican Peso'},{c:'MYR',s:'RM',n:'Malaysian Ringgit'},
+ {c:'NGN',s:'₦',n:'Nigerian Naira'},{c:'NOK',s:'kr',n:'Norwegian Krone'},
+ {c:'NPR',s:'रू',n:'Nepalese Rupee'},{c:'NZD',s:'NZ$',n:'New Zealand Dollar'},
+ {c:'OMR',s:'OMR ',n:'Omani Rial'},{c:'PEN',s:'S/',n:'Peruvian Sol'},
+ {c:'PHP',s:'₱',n:'Philippine Peso'},{c:'PKR',s:'₨',n:'Pakistani Rupee'},
+ {c:'PLN',s:'zł',n:'Polish Zloty'},{c:'QAR',s:'QR ',n:'Qatari Riyal'},
+ {c:'RON',s:'lei',n:'Romanian Leu'},{c:'SAR',s:'SR ',n:'Saudi Riyal'},
+ {c:'SEK',s:'kr',n:'Swedish Krona'},{c:'THB',s:'฿',n:'Thai Baht'},
+ {c:'TRY',s:'₺',n:'Turkish Lira'},{c:'TWD',s:'NT$',n:'Taiwan Dollar'},
+ {c:'TZS',s:'TSh',n:'Tanzanian Shilling'},{c:'UAH',s:'₴',n:'Ukrainian Hryvnia'},
+ {c:'UGX',s:'USh',n:'Ugandan Shilling'},{c:'VND',s:'₫',n:'Vietnamese Dong'},
+ {c:'ZAR',s:'R',n:'South African Rand'}
+];
+
+/* ==================== APP ==================== */
+(function(){
+if(typeof document==='undefined')return;
+const $=s=>document.querySelector(s);
+const KEY='undermark.v1';
+const LEGACY_KEYS=['ledger.v2','ledger.v1'];
+let storageOK=true, memory=null;
+function uid(){ return Math.random().toString(36).slice(2,9); }
+
+function loadState(){
+  try{
+    const raw=localStorage.getItem(KEY);
+    if(raw)return JSON.parse(raw);
+    for(const k of LEGACY_KEYS){
+      const old=localStorage.getItem(k);
+      if(old){ const mg=migrate(JSON.parse(old),uid); if(mg)return mg; }
+    }
+    return null;
+  }catch(e){ storageOK=false; return memory; }
+}
+function save(){
+  try{ localStorage.setItem(KEY,JSON.stringify(state)); }
+  catch(e){ storageOK=false; memory=JSON.parse(JSON.stringify(state)); }
+  flash();
+}
+function flash(){
+  const el=$("#savestate");
+  el.textContent=storageOK?"Saved":"In memory only";
+  el.style.background=storageOK?"var(--good-soft)":"var(--warn-soft)";
+  el.style.color=storageOK?"var(--good)":"var(--warn)";
+}
+function defaultState(){
+  const cats=[];
+  const add=(id,type,name,group)=>cats.push({id,type,name,group});
+  add('salary','income','Salary','Regular');
+  add('freelance','income','Freelance / clients','Regular');
+  add('sidebiz','income','Side business','Regular');
+  add('bonus','income','Bonus & commission','Occasional');
+  add('interest','income','Interest & dividends','Occasional');
+  add('rentin','income','Rent received','Occasional');
+  add('refunds','income','Refunds & cashback','Occasional');
+  add('otherinc','income','Other income','Occasional');
+
+  add('general','expense','General expenses','General');
+  add('household','expense','Household items','General');
+  add('rent','expense','Rent / mortgage','Home');
+  add('utilities','expense','Electricity, water, gas','Home');
+  add('internet','expense','Internet','Home');
+  add('phone','expense','Mobile','Home');
+  add('repairs','expense','Repairs & maintenance','Home');
+  add('groceries','expense','Groceries','Food');
+  add('eatingout','expense','Eating out & coffee','Food');
+  add('transport','expense','Transport & taxis','Getting around');
+  add('fuel','expense','Fuel','Getting around');
+  add('vehicle','expense','Vehicle & servicing','Getting around');
+  add('streaming','expense','Streaming & music','Subscriptions');
+  add('software','expense','Software & cloud','Subscriptions');
+  add('othersubs','expense','Other subscriptions','Subscriptions');
+  add('gym','expense','Gym & fitness','Health');
+  add('health','expense','Medical & pharmacy','Health');
+  add('insurance','expense','Insurance','Health');
+  add('shopping','expense','Shopping','Personal');
+  add('clothing','expense','Clothing','Personal');
+  add('fun','expense','Fun & going out','Personal');
+  add('gifts','expense','Gifts & donations','Personal');
+  add('childcare','expense','Childcare','Family');
+  add('education','expense','Education & courses','Family');
+  add('pets','expense','Pets','Family');
+  add('debt','expense','Loan & card payments','Money');
+  add('bankfees','expense','Bank fees & charges','Money');
+  add('tax','expense','Tax','Money');
+  add('travel','expense','Travel & holidays','Other');
+  add('otherexp','expense','Everything else','Other');
+
+  add('emergency','saving','Emergency fund','Savings');
+  add('invest','saving','Investments','Savings');
+  add('bigbuy','saving','Big purchase fund','Savings');
+  add('retire','saving','Retirement','Savings');
+  add('holidayfund','saving','Holiday fund','Savings');
+  add('eduFund','saving','Education fund','Savings');
+  return {v:2,cur:"$",curCode:"USD",usdRate:0,hideEmpty:false,cats,items:[],switches:{}};
+}
+
+let state=loadState()||defaultState();
+if(!state.items)state.items=[];
+if(!state.switches)state.switches={};
+if(!state.cats)state.cats=[];
+/* Older saves predate these, so fill them in rather than resetting anything. */
+if(!state.curCode){
+  const found=CURRENCIES.find(x=>x.s===state.cur);
+  state.curCode=found?found.c:(state.cur==="$"?"USD":"OTHER");
+}
+if(state.usdRate===undefined)state.usdRate=0;
+if(state.hideEmpty===undefined)state.hideEmpty=false;
+(function addMissingCategories(){
+  const have=new Set(state.cats.map(c=>c.id));
+  let added=0;
+  defaultState().cats.forEach(c=>{ if(!have.has(c.id)){ state.cats.push(c); added++; } });
+  if(added)save();
+})();
+let period=new Date().toISOString().slice(0,7);
+let page='dash';
+let focusId=null, openLogs={};
+let csv={headers:null,body:null,mapped:null,guess:null,dfmt:'auto',sign:'neg'};
+
+const cur=()=>state.cur||"$";
+const curCode=()=>state.curCode||"USD";
+/* The alternatives database is priced in US dollars. We never relabel those
+   figures with another symbol — that would look converted when it is not.
+   Comparisons against the user's own money only happen if they give a rate. */
+const isUSD=()=>curCode()==='USD';
+const rate=()=>isUSD()?1:(parseFloat(state.usdRate)>0?parseFloat(state.usdRate):0);
+const canCompare=()=>rate()>0;
+function usd(n,dp){
+  const d=dp===undefined?2:dp;
+  return "$"+Math.abs(+n||0).toLocaleString(undefined,{minimumFractionDigits:d,maximumFractionDigits:d});
+}
+const usd0=n=>usd(n,0);
+function money(n,dp){
+  const d=dp===undefined?2:dp, v=Math.abs(+n||0);
+  return ((+n||0)<0?"−":"")+cur()+v.toLocaleString(undefined,{minimumFractionDigits:d,maximumFractionDigits:d});
+}
+const money0=n=>money(n,0);
+const esc=s=>String(s==null?"":s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const catsOf=t=>state.cats.filter(c=>c.type===t);
+const catById=id=>state.cats.find(c=>c.id===id);
+function periodLabel(p){
+  const [y,m]=p.split("-").map(Number);
+  return new Date(Date.UTC(y,m-1,1)).toLocaleDateString(undefined,{month:'long',year:'numeric'});
+}
+function toast(msg){
+  const t=$("#toast"); t.textContent=msg; t.classList.add("on");
+  clearTimeout(toast._t); toast._t=setTimeout(()=>t.classList.remove("on"),2200);
+}
+const itemsOf=(catId)=>state.items.filter(i=>i.period===period&&i.catId===catId);
+
+/* ---------- purchase inbox ----------
+   The Chrome extension never touches Under the Mark's own data. It appends to a
+   separate localStorage key and Under the Mark decides what to do with it, so the
+   two can change independently. Contract: an array of
+   {id, ts, merchant, amount, currency, url, source}. */
+const INBOX_KEY='undermark.inbox';
+const INBOX_LEGACY='ledger.inbox';
+let inbox=[];
+function readInbox(){
+  const out=[];
+  // Read the current key plus the old one, so an extension that has not been
+  // updated yet still gets its purchases through.
+  for(const key of [INBOX_KEY,INBOX_LEGACY]){
+    let raw=null;
+    try{ raw=localStorage.getItem(key); }catch(e){ continue; }
+    if(!raw)continue;
+    let arr;
+    try{ arr=JSON.parse(raw); }catch(e){ continue; }
+    if(!Array.isArray(arr))continue;
+    arr.filter(isPending).map(normalisePending).forEach(p=>{
+      if(!out.some(x=>x.id===p.id))out.push(p);
+    });
+  }
+  return out;
+}
+function isPending(p){
+  return p && typeof p==='object' && p.id!==undefined &&
+    p.merchant!==undefined && isFinite(parseFloat(p.amount)) && parseFloat(p.amount)>0;
+}
+function normalisePending(p){
+  const amount=Math.abs(parseFloat(p.amount))||0;
+  let iso=String(p.ts||"").slice(0,10);
+  if(!/^\d{4}-\d{2}-\d{2}$/.test(iso)) iso=new Date().toISOString().slice(0,10);
+  const merchant=String(p.merchant||"Unknown").slice(0,80).trim()||"Unknown";
+  return {id:String(p.id),ts:iso,merchant,amount,
+    currency:String(p.currency||"").slice(0,4),url:String(p.url||"").slice(0,300),
+    source:p.source==='auto'?'auto':'manual', note:String(p.note||"").slice(0,120)};
+}
+function writeInbox(arr){
+  try{
+    localStorage.setItem(INBOX_KEY,JSON.stringify(arr));
+    // Anything read from the old key has now been carried into the new one,
+    // so empty the old one or accepted purchases would come back.
+    if(localStorage.getItem(INBOX_LEGACY)!==null)
+      localStorage.setItem(INBOX_LEGACY,'[]');
+  }catch(e){}
+  inbox=arr;
+}
+function refreshInbox(rerender){
+  const next=readInbox();
+  const changed = next.length!==inbox.length ||
+    next.some((p,i)=>!inbox[i]||inbox[i].id!==p.id);
+  inbox=next;
+  if(changed&&rerender!==false)render();
+  return changed;
+}
+function guessPendingCat(p){
+  const g=autoCategory(p.merchant+" "+(p.url||""));
+  if(g&&catById(g)&&catById(g).type==='expense')return g;
+  return catById('shopping')?'shopping':(catsOf('expense')[0]||{}).id;
+}
+function acceptPending(p,catId){
+  const period_=periodOf(p.ts);
+  const cid=catId||guessPendingCat(p);
+  const c=catById(cid);
+  if(!c)return false;
+  const hit=state.items.find(i=>i.period===period_&&i.catId===cid&&
+    String(i.name||"").toLowerCase()===p.merchant.toLowerCase());
+  const log={date:p.ts,label:(p.note||p.url||'from extension'),amount:p.amount};
+  if(hit){ hit.actual=(+hit.actual||0)+p.amount; hit.log=(hit.log||[]).concat([log]); }
+  else state.items.push({id:uid(),period:period_,type:'expense',catId:cid,
+    name:p.merchant,planned:0,actual:p.amount,log:[log]});
+  return true;
+}
+function dropPending(id){ writeInbox(inbox.filter(p=>p.id!==id)); }
+
+/* ---------- render ---------- */
+/* ---------- currency picker ---------- */
+function renderCurrencyPicker(){
+  const sel=$("#curSel");
+  if(!sel.options.length){
+    const mk=(label,list)=>{
+      const g=document.createElement("optgroup"); g.label=label;
+      list.forEach(x=>{
+        const o=document.createElement("option");
+        o.value=x.c; o.textContent=x.c+" — "+x.n+" ("+x.s.trim()+")";
+        g.appendChild(o);
+      });
+      return g;
+    };
+    sel.appendChild(mk("Most used",CURRENCIES.filter(x=>x.top)));
+    sel.appendChild(mk("All currencies",CURRENCIES.filter(x=>!x.top)));
+    const other=document.createElement("option");
+    other.value="OTHER"; other.textContent="Other — type your own symbol";
+    sel.appendChild(other);
+  }
+  sel.value=curCode()==='OTHER'?'OTHER':(CURRENCIES.some(x=>x.c===curCode())?curCode():'USD');
+  const box=$("#curCustom");
+  box.classList.toggle("hide",sel.value!=='OTHER');
+  if(sel.value==='OTHER')box.value=cur();
+}
+function setCurrency(code,customSymbol){
+  if(code==='OTHER'){
+    state.curCode='OTHER';
+    state.cur=(customSymbol||state.cur||"").slice(0,5)||"¤";
+  } else {
+    const f=CURRENCIES.find(x=>x.c===code)||CURRENCIES[0];
+    state.curCode=f.c; state.cur=f.s;
+  }
+  if(isUSD())state.usdRate=0;
+  save(); render();
+}
+
+function render(){
+  $("#period-label").textContent=periodLabel(period);
+  renderCurrencyPicker();
+  document.querySelectorAll(".nav").forEach(b=>b.classList.toggle("on",b.dataset.nav===page));
+  const T=computeTotals(state,period);
+  $("#b-income").textContent=money0(T.byType.income.actual);
+  $("#b-expenses").textContent=money0(T.byType.expense.actual);
+  $("#b-savings").textContent=money0(T.byType.saving.actual);
+  const ib=$("#b-inbox");
+  ib.textContent=inbox.length?inbox.length:"";
+  ib.className="badge"+(inbox.length?" hot":"");
+  const v=$("#view");
+  if(page==='dash')v.innerHTML=viewDash(T);
+  else if(page==='inbox')v.innerHTML=viewInbox();
+  else if(page==='swaps')v.innerHTML=viewSwaps(T);
+  else if(page==='import')v.innerHTML=viewImport();
+  else if(page==='data')v.innerHTML=viewData();
+  else v.innerHTML=viewPlan(page==='income'?'income':page==='savings'?'saving':'expense',T);
+  if(page==='import')wireImport();
+  const og=v.querySelector('#myorigin');
+  if(og)og.textContent=location.origin||'your deployed URL';
+  if(focusId){
+    const el=document.querySelector('input[data-f="name-'+focusId+'"]');
+    if(el){el.focus();el.select();}
+    focusId=null;
+  }
+  flash();
+}
+
+/* ---------- dashboard ---------- */
+function viewDash(T){
+  const inc=T.byType.income, exp=T.byType.expense, sav=T.byType.saving;
+  const left=T.resultActual, leftP=T.resultPlanned;
+  const base=Math.max(inc.actual,exp.actual+sav.actual,1);
+  const seg=(val,cls,label)=>{
+    const w=(val/base)*100;
+    return w<=0?"":'<div class="seg '+cls+'" style="width:'+w.toFixed(2)+'%">'+(w>13?'<span>'+esc(label)+'</span>':'')+'</div>';
+  };
+  const pb=Math.max(inc.planned,exp.planned+sav.planned,1);
+  const pw=v=>((v/pb)*100).toFixed(2);
+
+  const catRows=type=>{
+    const list=catsOf(type).map(c=>({c,d:T.byCat[c.id]}))
+      .filter(x=>x.d&&(x.d.planned||x.d.actual))
+      .sort((a,b)=>b.d.actual-a.d.actual);
+    if(!list.length)return '<tr><td colspan="5" style="color:var(--muted)">Nothing here yet</td></tr>';
+    return list.map(({c,d})=>{
+      const st=varianceStatus(type,d.planned,d.actual);
+      const pct=d.planned?Math.min(100,(d.actual/d.planned)*100):0;
+      const col=st.kind==='bad'?'var(--bad)':st.kind==='warn'?'var(--warn)':'var(--good)';
+      return '<tr><td class="name">'+esc(c.name)+
+        ' <span class="pill">'+d.items.length+' line'+(d.items.length===1?'':'s')+'</span>'+
+        '<div class="bar"><i style="width:'+pct.toFixed(1)+'%;background:'+col+'"></i></div></td>'+
+        '<td class="num">'+money(d.planned)+'</td><td class="num">'+money(d.actual)+'</td>'+
+        '<td class="num">'+money(Math.abs(st.diff))+'</td>'+
+        '<td class="num"><span class="pill '+st.kind+'">'+esc(st.label)+'</span></td></tr>';
+    }).join("");
+  };
+
+  const months=monthsBack(period,6);
+  const series=months.map(p=>{
+    const t=computeTotals(state,p);
+    return {inc:t.byType.income.actual,out:t.byType.expense.actual+t.byType.saving.actual};
+  });
+  const maxY=Math.max(1,...series.map(s=>Math.max(s.inc,s.out)));
+  const pts=k=>series.map((s,i)=>((i/(series.length-1||1))*100).toFixed(1)+","+(68-(s[k]/maxY)*62).toFixed(1)).join(" ");
+  const leaks=findLeaks(T).slice(0,4);
+  const banner=inbox.length?`<div class="inbanner"><div class="it">
+    <b>${inbox.length} purchase${inbox.length===1?'':'s'} waiting</b> — sent over by the Chrome extension.</div>
+    <button class="btn" data-nav="inbox">Review them</button></div>`:'';
+
+  return `
+  ${banner}
+  <div class="kpis">
+    <div class="kpi hero"><div class="k">Left over</div>
+      <div class="pair"><span class="v">${money0(left)}</span><span class="p">planned ${money0(leftP)}</span></div>
+      <div class="d">${left>=leftP?'Ahead of plan by ':'Behind plan by '}${money0(Math.abs(left-leftP))}</div></div>
+    <div class="kpi"><div class="k">Income</div>
+      <div class="pair"><span class="v">${money0(inc.actual)}</span><span class="p">planned ${money0(inc.planned)}</span></div>
+      <div class="d">${esc(varianceStatus('income',inc.planned,inc.actual).label)}</div></div>
+    <div class="kpi"><div class="k">Expenses</div>
+      <div class="pair"><span class="v">${money0(exp.actual)}</span><span class="p">planned ${money0(exp.planned)}</span></div>
+      <div class="d">${esc(varianceStatus('expense',exp.planned,exp.actual).label)}</div></div>
+    <div class="kpi"><div class="k">Savings</div>
+      <div class="pair"><span class="v">${money0(sav.actual)}</span><span class="p">planned ${money0(sav.planned)}</span></div>
+      <div class="d">${esc(varianceStatus('saving',sav.planned,sav.actual).label)}</div></div>
+  </div>
+
+  <div class="card"><div class="card-h"><div><h3>Plan against reality</h3>
+    <div class="sub">Dashed bar is the plan. Solid bar is what actually happened.</div></div></div>
+    <div class="card-b">
+      <div class="flow-row"><div class="flow-tag">Plan</div><div class="flow-track plan">
+        <div class="seg exp" style="width:${pw(exp.planned)}%"></div>
+        <div class="seg sav" style="width:${pw(sav.planned)}%"></div>
+        <div class="seg left" style="width:${pw(Math.max(0,leftP))}%"></div></div></div>
+      <div class="flow-row"><div class="flow-tag">Actual</div><div class="flow-track">
+        ${seg(exp.actual,'exp','Expenses '+money0(exp.actual))}
+        ${seg(sav.actual,'sav','Savings '+money0(sav.actual))}
+        ${left>=0?seg(left,'left','Left '+money0(left)):seg(-left,'over','Over '+money0(-left))}</div></div>
+      <div class="flow-key">
+        <div><i style="background:var(--bad)"></i>Expenses</div>
+        <div><i style="background:var(--accent)"></i>Savings</div>
+        <div><i style="background:var(--good)"></i>Left over</div></div>
+      <svg class="spark" viewBox="0 0 100 72" preserveAspectRatio="none" style="margin-top:20px" aria-hidden="true">
+        <polyline points="${pts('out')}" fill="none" stroke="var(--bad)" stroke-width="1.4" vector-effect="non-scaling-stroke"/>
+        <polyline points="${pts('inc')}" fill="none" stroke="var(--good)" stroke-width="1.4" vector-effect="non-scaling-stroke"/>
+      </svg>
+      <div style="display:flex;justify-content:space-between;font-family:var(--mono);font-size:10.5px;color:var(--faint)">
+        <span>${esc(months[0])}</span><span>last 6 months — money in vs money out</span><span>${esc(months[5])}</span></div>
+    </div></div>
+
+  ${leaks.length?`<div class="card"><div class="card-h"><div><h3>Cheaper options spotted</h3>
+    <div class="sub">Matched against the lines you recorded this month.</div></div>
+    <button class="btn g sm" data-nav="swaps">See all</button></div>
+    <div class="card-b" style="padding-top:6px">
+    ${leaks.map(l=>`<div class="alt" style="grid-template-columns:1fr 180px;padding-left:0;padding-right:0">
+      <div><div class="an">${esc(l.svc.n)} → ${esc(l.best.n)}</div><div class="at">${esc(l.best.t)}</div></div>
+      <div class="ap">${l.best.p===0?'Free':usd(l.best.p)+'/mo'}
+        <span class="save">${l.cmp?money0(l.saveYear)+' a year at your rate':'USD list price'}</span></div></div>`).join("")}
+    </div></div>`:''}
+
+  <div class="split2">
+    <div class="card"><div class="card-h"><h3>Income</h3></div><div class="tw"><table>
+      <thead><tr><th>Source</th><th class="num">Planned</th><th class="num">Actual</th><th class="num">Diff</th><th class="num">Status</th></tr></thead>
+      <tbody>${catRows('income')}</tbody></table></div></div>
+    <div class="card"><div class="card-h"><h3>Savings</h3></div><div class="tw"><table>
+      <thead><tr><th>Goal</th><th class="num">Planned</th><th class="num">Actual</th><th class="num">Diff</th><th class="num">Status</th></tr></thead>
+      <tbody>${catRows('saving')}</tbody></table></div></div>
+  </div>
+
+  <div class="card"><div class="card-h"><h3>Expenses</h3>
+    <button class="btn g sm" data-nav="expenses">Open expenses</button></div>
+    <div class="tw"><table>
+    <thead><tr><th>Category</th><th class="num">Planned</th><th class="num">Actual</th><th class="num">Diff</th><th class="num">Status</th></tr></thead>
+    <tbody>${catRows('expense')}</tbody>
+    <tfoot><tr><td>Total</td><td class="num">${money(exp.planned)}</td><td class="num">${money(exp.actual)}</td>
+      <td class="num">${money(Math.abs(exp.actual-exp.planned))}</td>
+      <td class="num">${exp.actual<=exp.planned?'under plan':'over plan'}</td></tr></tfoot></table></div></div>
+
+  <div class="card"><div class="card-h"><h3>The bottom line</h3></div><div class="tw"><table>
+    <thead><tr><th>&nbsp;</th><th class="num">Planned</th><th class="num">Actual</th><th class="num">Difference</th></tr></thead>
+    <tbody>
+      <tr><td class="name">Income</td><td class="num">${money(inc.planned)}</td><td class="num">${money(inc.actual)}</td><td class="num">${money(inc.actual-inc.planned)}</td></tr>
+      <tr><td class="name">Expenses</td><td class="num">−${money(exp.planned)}</td><td class="num">−${money(exp.actual)}</td><td class="num">${money(exp.planned-exp.actual)}</td></tr>
+      <tr><td class="name">Savings put aside</td><td class="num">−${money(sav.planned)}</td><td class="num">−${money(sav.actual)}</td><td class="num">${money(sav.actual-sav.planned)}</td></tr>
+    </tbody>
+    <tfoot><tr><td>Left over at the end</td><td class="num">${money(leftP)}</td>
+      <td class="num" style="color:${left>=0?'var(--good)':'var(--bad)'}">${money(left)}</td>
+      <td class="num">${money(left-leftP)}</td></tr></tfoot></table></div></div>`;
+}
+
+/* ---------- the plan grid ---------- */
+function viewPlan(type,T){
+  const title={income:'Income',expense:'Expenses',saving:'Savings'}[type];
+  const word={income:'source',expense:'category',saving:'goal'}[type];
+  const cats=catsOf(type);
+  const groups={};
+  cats.forEach(c=>{(groups[c.group||'Other']=groups[c.group||'Other']||[]).push(c);});
+
+  let blocks="";
+  Object.keys(groups).forEach(gname=>{
+    const visible=groups[gname].filter(c=>!state.hideEmpty||itemsOf(c.id).length);
+    if(!visible.length)return;
+    blocks+='<div style="font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;'+
+      'color:var(--faint);margin:18px 0 8px">'+esc(gname)+'</div>';
+    groups[gname].forEach(c=>{
+      const items=itemsOf(c.id);
+      if(state.hideEmpty&&!items.length)return;
+      const cp=items.reduce((s,i)=>s+(+i.planned||0),0);
+      const ca=items.reduce((s,i)=>s+(+i.actual||0),0);
+      const st=varianceStatus(type,cp,ca);
+      const dcol=st.kind==='bad'?'var(--bad)':st.kind==='good'?'var(--good)':'var(--muted)';
+      blocks+='<div class="catblock">'+
+        '<div class="cathead"><div><div class="cn">'+esc(c.name)+'</div>'+
+          '<div class="cg">'+items.length+' line'+(items.length===1?'':'s')+'</div></div>'+
+          '<div class="ct">'+money(cp)+'</div><div class="ct">'+money(ca)+'</div>'+
+          '<div class="ct cd" style="color:'+dcol+'">'+(cp||ca?money(st.diff):'—')+'</div>'+
+          '<div class="num"><button class="rowdel" data-delcat="'+c.id+'" title="Remove category">×</button></div></div>';
+      if(items.length){
+        blocks+='<div class="colhead"><span>Line</span><span>Planned</span><span>Actual</span><span>Difference</span><span></span></div>';
+        items.forEach(it=>{
+          const d=(+it.actual||0)-(+it.planned||0);
+          const good = type==='expense' ? d<=0 : d>=0;
+          const dc=(!it.planned&&!it.actual)?'var(--faint)':(good?'var(--good)':'var(--bad)');
+          blocks+='<div class="line">'+
+            '<input type="text" data-f="name-'+it.id+'" data-name="'+it.id+'" value="'+esc(it.name)+'" placeholder="What is it?">'+
+            '<input type="number" step="0.01" data-planned="'+it.id+'" value="'+(it.planned||"")+'" placeholder="0">'+
+            '<input type="number" step="0.01" data-actual="'+it.id+'" value="'+(it.actual||"")+'" placeholder="0">'+
+            '<div class="diff" style="color:'+dc+'">'+((it.planned||it.actual)?money(d):'—')+
+              (it.log&&it.log.length?'<button class="loglink" data-log="'+it.id+'">'+it.log.length+' txn</button>':'')+
+            '</div>'+
+            '<div class="num"><button class="rowdel" data-delitem="'+it.id+'" title="Delete line">×</button></div>'+
+          '</div>';
+          if(openLogs[it.id]&&it.log&&it.log.length){
+            blocks+='<div class="logbox">'+it.log.map(l=>
+              '<div class="logrow"><span>'+esc(l.date)+'</span><span>'+esc(l.label||'')+'</span>'+
+              '<span class="ld"></span><span>'+esc(money(l.amount))+'</span></div>').join("")+'</div>';
+          }
+        });
+      }
+      blocks+='<div class="addline"><button data-additem="'+c.id+'">+ Add a line under '+esc(c.name)+'</button></div>';
+      blocks+='</div>';
+    });
+  });
+
+  const tp=T.byType[type].planned, ta=T.byType[type].actual;
+  const tst=varianceStatus(type,tp,ta);
+  const usedCount=cats.filter(c=>itemsOf(c.id).length).length;
+
+  return `
+  <div class="card"><div class="card-h"><div><h3>${title} — ${esc(periodLabel(period))}</h3>
+    <div class="sub">Every line carries its own planned figure and its own actual figure. Category and month totals add up from them.</div></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+      <label class="radio" style="margin:0"><input type="checkbox" id="hideEmpty" ${state.hideEmpty?'checked':''}>
+        Hide empty (${cats.length-usedCount})</label>
+      <button class="btn g sm" data-copyplan="${type}">Copy last month</button>
+    </div></div>
+  </div>
+
+  ${blocks||'<div class="card"><div class="empty">Every category is hidden. Untick “Hide empty” to see them.</div></div>'}
+
+  <div class="grandtotal">
+    <div><div class="gl">${title} total</div>
+      <div class="gs" style="text-align:left">${esc(periodLabel(period))} · ${esc(tst.label)}</div></div>
+    <div><span class="gs">Planned</span><div class="gv">${money(tp)}</div></div>
+    <div><span class="gs">Actual</span><div class="gv">${money(ta)}</div></div>
+    <div class="gd"><span class="gs">Difference</span><div class="gv">${money(tst.diff)}</div></div>
+    <div></div>
+  </div>
+
+  <div class="card" style="margin-top:20px"><div class="card-h"><div><h3>Add your own ${word}</h3>
+    <div class="sub">Anything not covered above — it will appear with its own add-a-line button.</div></div></div>
+    <div class="card-b">
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:end">
+        <div style="flex:1;min-width:190px"><label class="fl">${word[0].toUpperCase()+word.slice(1)} name</label>
+          <input type="text" id="newcat" placeholder="e.g. Pet care"></div>
+        <div style="width:180px"><label class="fl">Group it under</label>
+          <input type="text" id="newgrp" list="grouplist" placeholder="General">
+          <datalist id="grouplist">${Object.keys(groups).map(g=>'<option value="'+esc(g)+'">').join("")}</datalist></div>
+        <button class="btn" data-addcat="${type}">Add ${word}</button>
+      </div>
+    </div></div>`;
+}
+
+/* ---------- inbox page ---------- */
+function viewInbox(){
+  const opts=(sel)=>catsOf('expense').map(c=>
+    '<option value="'+c.id+'"'+(c.id===sel?' selected':'')+'>'+esc(c.name)+'</option>').join("");
+  if(!inbox.length){
+    return `<div class="card"><div class="card-h"><div><h3>Purchase inbox</h3>
+      <div class="sub">Purchases sent from the Chrome extension land here for you to approve.</div></div></div>
+      <div class="empty"><div style="font-family:var(--display);font-size:17px;color:var(--ink);margin-bottom:6px">Nothing waiting</div>
+        Add a purchase from the extension popup and it will show up here the next time you open this page.</div></div>
+      <div class="card"><div class="card-h"><h3>How it connects</h3></div>
+        <div class="card-b" style="color:var(--muted);font-size:14px;line-height:1.7">
+          The extension keeps purchases on your own device until you open Under the Mark, then hands them over.
+          Nothing is sent to a server, and the extension never edits your figures — it only puts items in this
+          inbox, and they become lines only when you approve them here.
+          <div style="margin-top:12px;font-family:var(--mono);font-size:12px;color:var(--faint)">
+            Point the extension at: <b style="color:var(--ink)" id="myorigin"></b></div>
+        </div></div>`;
+  }
+  const total=inbox.reduce((s,p)=>s+p.amount,0);
+  return `<div class="card">
+    <div class="card-h"><div><h3>Purchase inbox</h3>
+      <div class="sub">${inbox.length} waiting · ${money(total)} in total. Nothing is added to your figures until you approve it.</div></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn" data-act="accept-all">Add all ${inbox.length}</button>
+        <button class="btn g" data-act="clear-inbox">Dismiss all</button></div></div>
+    ${inbox.map(p=>`<div class="pend">
+      <div><div class="pm">${esc(p.merchant)}</div>
+        <div class="pu">${esc(p.ts)}${p.url?' · '+esc(p.url):''}${p.note?' · '+esc(p.note):''}</div></div>
+      <div class="pa">${money(p.amount)}</div>
+      <div><span class="pill ${p.source==='auto'?'info':''}">${p.source==='auto'?'detected':'typed in'}</span></div>
+      <div><select data-pcat="${esc(p.id)}">${opts(guessPendingCat(p))}</select></div>
+      <div><button class="btn sm" data-accept="${esc(p.id)}">Add</button></div>
+      <div><button class="rowdel" data-dismiss="${esc(p.id)}" title="Dismiss">×</button></div>
+    </div>`).join("")}
+    <div class="card-b" style="border-top:1px solid var(--rule-2);color:var(--muted);font-size:13px">
+      Each one becomes a line in the month it happened, filling the <b>actual</b> column and leaving planned at zero.
+      If a line with the same name already exists that month, the amount is added to it.
+    </div></div>`;
+}
+
+/* ---------- cheaper options ---------- */
+function findLeaks(T){
+  const r=rate(), out=[], seen={};
+  T.items.filter(i=>i.type==='expense').forEach(i=>{
+    SERVICES.forEach(s=>{
+      if(!s.match.test(i.name||""))return;
+      if(seen[s.n])return;
+      const best=s.alts.slice().sort((a,b)=>a.p-b.p)[0];
+      if(!best)return;
+      const paid=(+i.actual||+i.planned||0);
+      seen[s.n]=true;
+      if(r>0&&paid>0){
+        const altInYourMoney=best.p*r;
+        if(altInYourMoney>=paid)return;
+        out.push({svc:s,best,item:i,paid,altInYourMoney,cmp:true,
+          saveMonth:paid-altInYourMoney,saveYear:(paid-altInYourMoney)*12});
+      } else {
+        out.push({svc:s,best,item:i,paid,cmp:false,saveMonth:0,saveYear:0});
+      }
+    });
+  });
+  return out.sort((a,b)=>b.saveYear-a.saveYear);
+}
+function viewSwaps(T){
+  const need=viewSwaps._need||'all';
+  const leaks=findLeaks(T);
+  const list=SERVICES.filter(s=>need==='all'||s.need===need);
+  const r=rate();
+  let totalM=0;
+  const cards=list.map(s=>{
+    const mine=T.items.find(i=>i.type==='expense'&&s.match.test(i.name||""));
+    const alts=s.alts.slice().sort((a,b)=>a.p-b.p).map(a=>{
+      const key=s.n+"::"+a.n, on=!!state.switches[key], saving=s.price-a.p;
+      if(on&&saving>0)totalM+=saving;
+      const badge=a.k==='free'?'<span class="pill good">free</span>':a.k==='annual'?'<span class="pill info">annual billing</span>'
+        :a.k==='downgrade'?'<span class="pill">lower tier</span>':'<span class="pill info">switch</span>';
+      return `<label class="alt ${on?'on':''}"><input type="checkbox" data-swap="${esc(key)}" ${on?'checked':''}>
+        <div><div class="an">${esc(a.n)} ${badge}</div><div class="at">${esc(a.t)}</div></div>
+        <div class="ap">${a.p===0?'Free':usd(a.p)+'/mo'}${saving>0?'<span class="save">saves '+usd0(saving*12)+'/yr</span>':''}</div></label>`;
+    }).join("");
+    return `<div class="swap"><div class="swap-h">
+      <div><div class="nm">${esc(s.n)}</div>
+        <div style="font-size:12.5px;color:var(--muted)">${mine
+          ? 'You have this on your '+esc((catById(mine.catId)||{}).name||'')+' list at '+money(+mine.actual||+mine.planned||0)+'/mo'
+          : 'Provider list price'}</div></div>
+      <div class="pr">${usd(s.price)}/mo ${mine?'<span class="pill info">yours</span>':''}</div></div>${alts}</div>`;
+  }).join("");
+
+  const rateBox = isUSD() ? '' : `
+    <div class="ratebox">
+      <div class="rl"><b>Prices here are in US dollars.</b> Your budget is in ${esc(curCode())},
+        so nothing on this page is converted for you — an exchange rate you did not choose would be out of date
+        the moment it was written.</div>
+      <div class="rf"><label class="fl" for="usdrate">If you want comparisons, set your own rate</label>
+        <div class="ri"><span>1 USD =</span>
+          <input type="number" id="usdrate" step="0.01" min="0" value="${state.usdRate||''}" placeholder="0">
+          <span>${esc(curCode())}</span></div>
+        ${r>0?'<div class="rn">Using your rate. Figures below stay in USD; your own totals stay in '+esc(curCode())+'.</div>'
+             :'<div class="rn">Without a rate, savings against your own figures are not shown.</div>'}
+      </div>
+    </div>`;
+
+  const personal = !leaks.length ? '' : `
+    <div class="card"><div class="card-h"><div><h3>Matched against your own lines</h3>
+      <div class="sub">From ${esc(periodLabel(period))}.</div></div></div>
+      <div class="card-b" style="padding-top:8px">
+      ${leaks.map(l=>`<div class="alt" style="grid-template-columns:1fr 190px;padding-left:0;padding-right:0">
+        <div><div class="an">${esc(l.svc.n)}${l.paid?' — you have '+money(l.paid)+'/mo':''}</div>
+          <div class="at">Cheapest option: ${esc(l.best.n)} — ${esc(l.best.t)}</div></div>
+        <div class="ap">${l.best.p===0?'Free':usd(l.best.p)+'/mo'}
+          ${l.cmp?'<span class="save">saves about '+money0(l.saveYear)+'/yr at your rate</span>'
+                 :'<span class="save" style="color:var(--muted)">set a rate to compare</span>'}</div>
+      </div>`).join("")}</div></div>`;
+
+  return `
+  <div class="note"><b>Check every price before you act on it.</b> These are starting figures in US dollars,
+    not live prices. They change often and differ by country. Open the provider's own pricing page first.</div>
+  ${rateBox}
+  ${personal}
+  <div class="needs"><button class="need ${need==='all'?'on':''}" data-need="all">Everything</button>
+    ${NEEDS.map(n=>`<button class="need ${need===n.id?'on':''}" data-need="${n.id}">${esc(n.label)}</button>`).join("")}</div>
+  ${cards||'<div class="empty">Nothing in this group.</div>'}
+  <div class="sticky-save"><div><div class="t">Ticked switches, against list prices</div>
+    <div class="v">${usd0(totalM*12)} a year</div></div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+      <span class="t">${usd0(totalM)} a month${r>0&&!isUSD()?' · about '+money0(totalM*r)+' at your rate':''}</span>
+      <button class="btn" data-act="apply-swaps" ${canCompare()?'':'disabled title="Set an exchange rate first so the amounts land in your own currency"'}>Put these in next month's plan</button></div></div>
+  ${canCompare()?'':'<p style="font-size:13px;color:var(--muted);margin-top:10px">Set a rate above to copy these into your plan in '+esc(curCode())+'.</p>'}`;
+}
+
+/* ---------- import ---------- */
+function viewImport(){
+  if(!csv.body){
+    return `<div class="card"><div class="card-h"><div><h3>Import a bank statement</h3>
+      <div class="sub">Read inside this page. Nothing is uploaded anywhere.</div></div></div>
+      <div class="card-b"><div class="drop" id="drop">
+        <h3 style="font-size:19px;margin-bottom:6px">Drop a CSV here</h3>
+        <p style="color:var(--muted);margin:0 0 18px">Comma, semicolon and tab files all work.</p>
+        <button class="btn" id="pick">Choose file</button>
+        <button class="btn g" id="demo">Try sample data</button></div>
+      <input type="file" id="file" accept=".csv,.txt" class="hide"><div id="imperr"></div></div></div>`;
+  }
+  if(!csv.mapped){
+    const opts=sel=>['<option value="-1">— none —</option>'].concat(
+      csv.headers.map((h,i)=>'<option value="'+i+'"'+(i===sel?' selected':'')+'>'+esc(h)+'</option>')).join("");
+    return `<div class="card"><div class="card-h"><div><h3>Confirm the columns</h3>
+      <div class="sub">${csv.body.length} rows found. Check the guesses.</div></div>
+      <button class="btn g sm" data-act="cancel-import">Another file</button></div>
+      <div class="card-b">
+        <div class="fields">
+          <div><label class="fl">Date</label><select id="c-date">${opts(csv.guess.date)}</select></div>
+          <div><label class="fl">Description</label><select id="c-desc">${opts(csv.guess.desc)}</select></div>
+          <div><label class="fl">Amount</label><select id="c-amt">${opts(csv.guess.amount)}</select></div>
+        </div>
+        <div class="radios">
+          <div><div class="fl">Money leaving shows as</div>
+            <label class="radio"><input type="radio" name="sg" value="neg" ${csv.sign!=='pos'?'checked':''}> Negative</label>
+            <label class="radio"><input type="radio" name="sg" value="pos" ${csv.sign==='pos'?'checked':''}> Positive</label></div>
+          <div><div class="fl">Date order</div>
+            <label class="radio"><input type="radio" name="df" value="auto" ${csv.dfmt==='auto'?'checked':''}> Auto</label>
+            <label class="radio"><input type="radio" name="df" value="dmy" ${csv.dfmt==='dmy'?'checked':''}> D/M/Y</label>
+            <label class="radio"><input type="radio" name="df" value="mdy" ${csv.dfmt==='mdy'?'checked':''}> M/D/Y</label></div>
+        </div>
+        <div class="tw" style="margin-top:18px"><table><thead><tr>${csv.headers.map(h=>'<th>'+esc(h)+'</th>').join("")}</tr></thead>
+        <tbody>${csv.body.slice(0,5).map(r=>'<tr>'+csv.headers.map((h,i)=>'<td>'+esc(r[i]||"")+'</td>').join("")+'</tr>').join("")}</tbody></table></div>
+        <div style="margin-top:18px"><button class="btn" data-act="do-map">Read the transactions</button></div>
+        <div id="imperr"></div></div></div>`;
+  }
+  const groups=groupMapped();
+  return `<div class="card"><div class="card-h"><div><h3>Review before importing</h3>
+    <div class="sub">${csv.mapped.length} transactions become ${groups.length} lines, one per merchant per month.
+      Each lands in the month it happened, filling the <b>actual</b> column.</div></div>
+    <button class="btn g sm" data-act="cancel-import">Start again</button></div>
+    <div class="tw" style="max-height:520px;overflow-y:auto"><table>
+    <thead><tr><th>Month</th><th>Line</th><th class="num">Txns</th><th class="num">Actual</th><th>Type</th><th>Category</th><th></th></tr></thead>
+    <tbody>${groups.map((g,i)=>`<tr>
+      <td class="mono">${esc(g.period)}</td><td class="name">${esc(g.name)}</td>
+      <td class="num">${g.log.length}</td><td class="num">${money(g.actual)}</td>
+      <td><select data-gtype="${i}">
+        <option value="expense"${g.type==='expense'?' selected':''}>Expense</option>
+        <option value="income"${g.type==='income'?' selected':''}>Income</option>
+        <option value="saving"${g.type==='saving'?' selected':''}>Saving</option>
+        <option value="skip"${g.type==='skip'?' selected':''}>Skip</option></select></td>
+      <td><select data-gcat="${i}">${state.cats.filter(c=>c.type===(g.type==='skip'?'expense':g.type))
+        .map(c=>'<option value="'+c.id+'"'+(c.id===g.catId?' selected':'')+'>'+esc(c.name)+'</option>').join("")}</select></td>
+      <td class="num"><button class="rowdel" data-gdel="${i}">×</button></td></tr>`).join("")}</tbody></table></div>
+    <div class="card-b" style="border-top:1px solid var(--rule-2);display:flex;gap:10px;flex-wrap:wrap">
+      <button class="btn" data-act="do-import">Import ${groups.filter(g=>g.type!=='skip').length} lines</button>
+      <button class="btn g" data-act="cancel-import">Cancel</button></div></div>`;
+}
+function groupMapped(){
+  if(csv.groups)return csv.groups;
+  const idx={},out=[];
+  csv.mapped.forEach(r=>{
+    const key=r.period+"|"+r.type+"|"+r.name;
+    if(!idx[key]){ idx[key]={period:r.period,type:r.type,catId:r.catId,name:r.name,actual:0,log:[]}; out.push(idx[key]); }
+    idx[key].actual+=r.amount;
+    idx[key].log.push({date:r.date,label:r.raw,amount:r.amount});
+  });
+  out.sort((a,b)=>b.period.localeCompare(a.period)||b.actual-a.actual);
+  csv.groups=out;
+  return out;
+}
+function wireImport(){
+  const drop=$("#drop"); if(!drop)return;
+  const fi=$("#file");
+  $("#pick").onclick=e=>{e.stopPropagation();fi.click();};
+  drop.onclick=()=>fi.click();
+  $("#demo").onclick=e=>{e.stopPropagation();ingest(sampleCSV());};
+  fi.onchange=()=>{ if(fi.files[0]){const r=new FileReader();r.onload=()=>ingest(String(r.result));r.readAsText(fi.files[0]);} };
+  ["dragenter","dragover"].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.add("over");}));
+  ["dragleave","drop"].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.remove("over");}));
+  drop.addEventListener("drop",e=>{
+    const f=e.dataTransfer.files&&e.dataTransfer.files[0];
+    if(f){const r=new FileReader();r.onload=()=>ingest(String(r.result));r.readAsText(f);}
+  });
+}
+function ingest(text){
+  const rows=parseCSV(text);
+  if(rows.length<3){ $("#imperr").innerHTML='<div class="errbox">Only '+rows.length+' rows found. Make sure the file is saved as CSV.</div>'; return; }
+  const h=findHeaderRow(rows), all=rows.slice(h.index);
+  csv.headers=h.hasHeader?all[0].map((c,i)=>c||("Column "+(i+1))):all[0].map((c,i)=>"Column "+(i+1));
+  csv.body=h.hasHeader?all.slice(1):all;
+  csv.guess=guessColumns(csv.headers,csv.body);
+  csv.dfmt=csv.guess.date>-1?guessDateOrder(csv.body.map(r=>r[csv.guess.date])):'auto';
+  const vals=csv.guess.amount>-1?csv.body.map(r=>parseAmount(r[csv.guess.amount])).filter(v=>v!==null):[];
+  csv.sign=vals.filter(v=>v<0).length>vals.length*0.25?'neg':'pos';
+  csv.mapped=null; csv.groups=null;
+  render();
+}
+function doMap(){
+  const di=+$("#c-date").value, si=+$("#c-desc").value, ai=+$("#c-amt").value;
+  csv.sign=document.querySelector('input[name=sg]:checked').value;
+  csv.dfmt=document.querySelector('input[name=df]:checked').value;
+  if(di<0||si<0||ai<0){ $("#imperr").innerHTML='<div class="errbox">Pick a date, description and amount column first.</div>'; return; }
+  const out=[];
+  csv.body.forEach(r=>{
+    const d=parseDate(r[di],csv.dfmt); if(!d)return;
+    let a=parseAmount(r[ai]); if(a===null)return;
+    const outflow = csv.sign==='neg' ? a<0 : a>0;
+    a=Math.abs(a); if(!a)return;
+    const name=cleanMerchant(r[si]);
+    const guess=autoCategory(r[si]);
+    let type=outflow?'expense':'income', catId;
+    if(guess&&catById(guess)){ catId=guess; type=catById(guess).type; }
+    else catId = type==='income'?'otherinc':'otherexp';
+    const iso=d.toISOString().slice(0,10);
+    out.push({date:iso,period:periodOf(iso),name,amount:a,type,catId,raw:r[si]});
+  });
+  if(!out.length){ $("#imperr").innerHTML='<div class="errbox">No usable rows. Check whether money leaving the account is negative or positive.</div>'; return; }
+  csv.mapped=out; csv.groups=null;
+  render();
+}
+function doImport(){
+  const groups=groupMapped().filter(g=>g.type!=='skip');
+  let added=0,merged=0;
+  groups.forEach(g=>{
+    const hit=state.items.find(i=>i.period===g.period&&i.catId===g.catId&&i.name.toLowerCase()===g.name.toLowerCase());
+    if(hit){ hit.actual=(+hit.actual||0)+g.actual; hit.log=(hit.log||[]).concat(g.log); merged++; }
+    else{ state.items.push({id:uid(),period:g.period,type:g.type,catId:g.catId,name:g.name,
+      planned:0,actual:g.actual,log:g.log}); added++; }
+  });
+  csv={headers:null,body:null,mapped:null,guess:null,dfmt:'auto',sign:'neg'};
+  save(); page='expenses'; render();
+  toast(added+" lines added"+(merged?", "+merged+" merged":""));
+}
+
+/* ---------- data ---------- */
+function viewData(){
+  const months={};
+  state.items.forEach(i=>{months[i.period]=(months[i.period]||0)+1;});
+  const keys=Object.keys(months).sort().reverse();
+  return `<div class="card"><div class="card-h"><div><h3>Your data</h3>
+    <div class="sub">${state.items.length} lines across ${keys.length} month${keys.length===1?'':'s'}.
+      ${storageOK?'Stored on this device only.':'Browser storage is blocked here — export a backup before closing.'}</div></div></div>
+    <div class="card-b">
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px">
+        <button class="btn" data-act="export">Download backup (JSON)</button>
+        <button class="btn g" data-act="import-json">Restore from backup</button>
+        <button class="btn g" data-act="export-csv">Export lines as CSV</button>
+        <button class="btn g" data-act="reset" style="color:var(--bad);border-color:var(--bad-line)">Delete everything</button>
+      </div>
+      <input type="file" id="jsonfile" accept=".json" class="hide">
+      <div class="tw"><table><thead><tr><th>Month</th><th class="num">Lines</th>
+        <th class="num">Income</th><th class="num">Expenses</th><th class="num">Savings</th>
+        <th class="num">Left over</th></tr></thead><tbody>
+        ${keys.length?keys.map(k=>{const t=computeTotals(state,k);
+          return `<tr><td class="name">${esc(periodLabel(k))}</td><td class="num">${months[k]}</td>
+          <td class="num">${money(t.byType.income.actual)}</td><td class="num">${money(t.byType.expense.actual)}</td>
+          <td class="num">${money(t.byType.saving.actual)}</td>
+          <td class="num" style="color:${t.resultActual>=0?'var(--good)':'var(--bad)'}">${money(t.resultActual)}</td></tr>`;
+        }).join(""):'<tr><td colspan="6" class="empty">No lines yet.</td></tr>'}
+      </tbody></table></div></div></div>
+    <div class="card"><div class="card-h"><h3>About the prices in Cheaper options</h3></div>
+      <div class="card-b" style="color:var(--muted);font-size:14px">
+        The alternatives ship with starting prices that have <b>not</b> been verified against the providers.
+        Prices change often and differ by country. Before publishing this, open each provider's pricing page,
+        correct the numbers in the <code>SERVICES</code> list in this file, and note the date you checked.
+      </div></div>`;
+}
+
+/* ---------- events ---------- */
+document.addEventListener("click",e=>{
+  const t=e.target.closest("[data-nav],[data-act],[data-addcat],[data-delcat],[data-additem],[data-delitem],[data-need],[data-copyplan],[data-gdel],[data-log],[data-accept],[data-dismiss]");
+  if(!t)return;
+  const d=t.dataset;
+  if(d.nav){ page=d.nav; render(); window.scrollTo({top:0}); return; }
+  if(d.need){ viewSwaps._need=d.need; render(); return; }
+  if(d.log){ openLogs[d.log]=!openLogs[d.log]; render(); return; }
+  if(d.additem){ addItem(d.additem); return; }
+  if(d.delitem){ state.items=state.items.filter(i=>i.id!==d.delitem); save(); render(); return; }
+  if(d.addcat){ addCat(d.addcat); return; }
+  if(d.delcat){ delCat(d.delcat); return; }
+  if(d.copyplan){ copyPlan(d.copyplan); return; }
+  if(d.gdel){ csv.groups.splice(+d.gdel,1); render(); return; }
+  if(d.accept){
+    const p=inbox.find(x=>x.id===d.accept);
+    if(p){
+      const row=t.closest('.pend');
+      const sel=row?row.querySelector('select[data-pcat]'):null;
+      if(acceptPending(p,sel?sel.value:null)){
+        dropPending(p.id); save(); render();
+        toast(p.merchant+" added to "+periodLabel(periodOf(p.ts)));
+      } else toast("That category no longer exists");
+    }
+    return;
+  }
+  if(d.dismiss){ dropPending(d.dismiss); render(); toast("Dismissed"); return; }
+  const a=d.act;
+  if(a==='prev-month'){ period=shiftMonth(period,-1); render(); }
+  else if(a==='next-month'){ period=shiftMonth(period,1); render(); }
+  else if(a==='this-month'){ period=new Date().toISOString().slice(0,7); render(); }
+  else if(a==='do-map'){ doMap(); }
+  else if(a==='cancel-import'){ csv={headers:null,body:null,mapped:null,guess:null,dfmt:'auto',sign:'neg'}; render(); }
+  else if(a==='do-import'){ doImport(); }
+  else if(a==='apply-swaps'){ applySwaps(); }
+  else if(a==='export'){ exportJSON(); }
+  else if(a==='export-csv'){ exportCSV(); }
+  else if(a==='import-json'){ $("#jsonfile").click(); }
+  else if(a==='accept-all'){
+    let n=0;
+    inbox.slice().forEach(p=>{ if(acceptPending(p,null))n++; });
+    writeInbox([]); save(); page='expenses'; render();
+    toast(n+" purchase"+(n===1?'':'s')+" added");
+  }
+  else if(a==='clear-inbox'){
+    if(confirm("Dismiss all "+inbox.length+" waiting purchases? They will not be added."))
+      { writeInbox([]); render(); toast("Inbox cleared"); }
+  }
+  else if(a==='reset'){ if(confirm("Delete every line, plan and category? This cannot be undone.")){
+    state=defaultState(); save(); render(); toast("Everything cleared"); } }
+});
+
+/* The extension writes to localStorage then fires this event. We re-read the
+   store rather than trusting anything carried on the event itself. */
+window.addEventListener('ledger:inbox',()=>refreshInbox());
+window.addEventListener('storage',e=>{ if(!e.key||e.key===INBOX_KEY)refreshInbox(); });
+window.addEventListener('focus',()=>refreshInbox());
+document.addEventListener('visibilitychange',()=>{ if(!document.hidden)refreshInbox(); });
+document.addEventListener("change",e=>{
+  const el=e.target, d=el.dataset;
+  if(el.id==='curSel'){ setCurrency(el.value,$("#curCustom").value); return; }
+  if(el.id==='curCustom'){ setCurrency('OTHER',el.value); return; }
+  if(el.id==='usdrate'){
+    const v=parseFloat(el.value);
+    state.usdRate=(isFinite(v)&&v>0)?v:0;
+    save(); render();
+    toast(state.usdRate?("Using 1 USD = "+state.usdRate+" "+curCode()):"Rate cleared");
+    return;
+  }
+  if(el.id==='hideEmpty'){ state.hideEmpty=el.checked; save(); render(); return; }
+  if(d.name){ const it=state.items.find(i=>i.id===d.name); if(it){it.name=el.value;save();} return; }
+  if(d.planned){ const it=state.items.find(i=>i.id===d.planned); if(it){it.planned=parseFloat(el.value)||0;save();render();} return; }
+  if(d.actual){ const it=state.items.find(i=>i.id===d.actual); if(it){it.actual=parseFloat(el.value)||0;save();render();} return; }
+  if(d.swap){ state.switches[d.swap]=el.checked; save(); render(); return; }
+  if(d.gtype!==undefined){
+    const g=csv.groups[+d.gtype]; g.type=el.value;
+    if(el.value!=='skip'){
+      const c=catById(g.catId);
+      if(!c||c.type!==el.value)g.catId=(state.cats.find(x=>x.type===el.value)||{}).id;
+    }
+    render(); return;
+  }
+  if(d.gcat!==undefined){ csv.groups[+d.gcat].catId=el.value; return; }
+  if(el.id==='jsonfile'&&el.files[0]){
+    const r=new FileReader();
+    r.onload=()=>{
+      try{
+        let dd=JSON.parse(String(r.result));
+        if(dd.entries&&!dd.items)dd=migrate(dd,uid);
+        if(!dd||!dd.cats||!dd.items)throw 0;
+        state=dd; if(!state.switches)state.switches={};
+        save(); render(); toast("Backup restored");
+      }catch(err){ toast("That file is not an Under the Mark backup"); }
+    };
+    r.readAsText(el.files[0]);
+  }
+});
+
+/* ---------- actions ---------- */
+function addItem(catId){
+  const c=catById(catId); if(!c)return;
+  const it={id:uid(),period,type:c.type,catId,name:"",planned:0,actual:0,log:[]};
+  state.items.push(it);
+  focusId=it.id;
+  save(); render();
+}
+function addCat(type){
+  const n=$("#newcat"), g=$("#newgrp");
+  const name=(n.value||"").trim();
+  if(!name){ toast("Give it a name first"); n.focus(); return; }
+  state.cats.push({id:uid(),type,name,group:(g.value||"").trim()||"Other"});
+  n.value=""; g.value="";
+  save(); render(); toast("Added");
+}
+function delCat(id){
+  const used=state.items.filter(i=>i.catId===id).length;
+  if(used&&!confirm(used+" lines sit under this. Delete the category and its lines?"))return;
+  state.cats=state.cats.filter(c=>c.id!==id);
+  state.items=state.items.filter(i=>i.catId!==id);
+  save(); render();
+}
+function copyPlan(type){
+  const prev=shiftMonth(period,-1);
+  const src=state.items.filter(i=>i.period===prev&&i.type===type);
+  if(!src.length){ toast("Nothing in "+periodLabel(prev)+" to copy"); return; }
+  let n=0;
+  src.forEach(s=>{
+    const exists=state.items.some(i=>i.period===period&&i.catId===s.catId&&i.name.toLowerCase()===s.name.toLowerCase());
+    if(exists)return;
+    state.items.push({id:uid(),period,type:s.type,catId:s.catId,name:s.name,
+      planned:(+s.planned||+s.actual||0),actual:0,log:[]});
+    n++;
+  });
+  save(); render();
+  toast(n?("Copied "+n+" lines from "+periodLabel(prev)+" — actuals left blank"):"Those lines already exist");
+}
+function applySwaps(){
+  /* Database prices are in USD. Never write them into a budget kept in
+     another currency without the rate the user supplied themselves. */
+  if(!canCompare()){ toast("Set a 1 USD rate first so the amounts land in "+curCode()); return; }
+  const T=computeTotals(state,period);
+  const next=shiftMonth(period,1);
+  const r=rate();
+  let count=0,total=0;
+  SERVICES.forEach(s=>{
+    s.alts.forEach(a=>{
+      if(!state.switches[s.n+"::"+a.n])return;
+      const mine=T.items.find(i=>i.type==='expense'&&s.match.test(i.name||""));
+      const paid=mine?(+mine.actual||+mine.planned||s.price*r):s.price*r;
+      const priced=Math.round(a.p*r*100)/100;
+      if(priced>=paid)return;
+      const catId=mine?mine.catId:'streaming';
+      if(!catById(catId))return;
+      const name=mine?mine.name:s.n;
+      let it=state.items.find(i=>i.period===next&&i.catId===catId&&
+        String(i.name||"").toLowerCase()===name.toLowerCase());
+      if(!it){ it={id:uid(),period:next,type:'expense',catId,name,planned:0,actual:0,log:[]}; state.items.push(it); }
+      it.planned=priced;
+      it.name=name+" ("+a.n+")";
+      count++; total+=paid-priced;
+    });
+  });
+  save(); render();
+  toast(count?(count+" lines set in "+periodLabel(next)+", saving "+money0(total)+" a month"):"Tick some switches first");
+}
+function exportJSON(){
+  download("underthemark-backup-"+new Date().toISOString().slice(0,10)+".json",JSON.stringify(state,null,2),"application/json");
+}
+function exportCSV(){
+  const lines=[["Month","Type","Category","Line","Planned","Actual","Difference"].join(",")];
+  state.items.slice().sort((a,b)=>a.period.localeCompare(b.period)).forEach(i=>{
+    const c=catById(i.catId);
+    lines.push([i.period,i.type,(c?c.name:""),String(i.name||"").replace(/"/g,'""'),
+      (+i.planned||0).toFixed(2),(+i.actual||0).toFixed(2),((+i.actual||0)-(+i.planned||0)).toFixed(2)]
+      .map(v=>/[",]/.test(v)?'"'+v+'"':v).join(","));
+  });
+  download("underthemark-lines.csv",lines.join("\n"),"text/csv");
+}
+function download(name,text,mime){
+  const b=new Blob([text],{type:mime}), u=URL.createObjectURL(b);
+  const a=document.createElement("a"); a.href=u; a.download=name; a.click();
+  setTimeout(()=>URL.revokeObjectURL(u),1000);
+}
+
+/* ---------- sample statement ---------- */
+function sampleCSV(){
+  const rows=[["Posted Date","Transaction Description","Amount","Balance"]];
+  const now=new Date(), out=[];
+  const subs=[["NETFLIX.COM 866-579-7172 CA",17.99,4],["SQ *SPOTIFY USA 855-555-1234",11.99,7],
+    ["ADOBE *CREATIVE CLOUD 408-536-6000",59.99,11],["GOOGLE *YOUTUBEPREMIUM",13.99,14],
+    ["PP*PLANET FIT CLUB FEES",24.99,17],["DROPBOX*4T7KX9 DUBLIN",11.99,19],
+    ["GOOGLE *GOOGLE ONE 855-836-3987",9.99,20],["DEBIT CARD PURCHASE - AUDIBLE*4K92LM3",14.95,22],
+    ["COMCAST XFINITY INTERNET",79.00,6],["VERIZON WIRELESS PMT",75.00,12]];
+  const noise=["TRADER JOES #453 COLUMBIA","SHELL OIL 574412345","POS DEBIT WHOLEFDS MKT 10082",
+    "CVS/PHARMACY #04512","STARBUCKS STORE 22841","TST* SWEETGREEN - 14TH ST","UBER *TRIP",
+    "TARGET 00021453","CHIPOTLE 1934","AMZN MKTP US*2L84K3JD1"];
+  for(let m=2;m>=0;m--){
+    const y=now.getFullYear(), mo=now.getMonth()-m;
+    subs.forEach(s=>{ const d=new Date(y,mo,s[2]); if(d<=now) out.push([d,s[0],-s[1]]); });
+    for(let i=0;i<12;i++){
+      const d=new Date(y,mo,1+Math.floor(Math.random()*27));
+      if(d<=now) out.push([d,noise[Math.floor(Math.random()*noise.length)],-(6+Math.random()*80)]);
+    }
+    const push=(day,label,amt)=>{ const d=new Date(y,mo,day); if(d<=now) out.push([d,label,amt]); };
+    push(2,"RENT PAYMENT LANDLORD LLC",-1450);
+    push(15,"DIRECT DEP PAYROLL ACME CORP",2400);
+    push(28,"UPWORK ESCROW RELEASE",900);
+    push(16,"TRANSFER TO SAVINGS VANGUARD",-500);
+  }
+  out.sort((a,b)=>a[0]-b[0]);
+  let bal=5200;
+  out.forEach(r=>{
+    bal+=r[2];
+    const d=r[0];
+    const ds=String(d.getMonth()+1).padStart(2,"0")+"/"+String(d.getDate()).padStart(2,"0")+"/"+d.getFullYear();
+    rows.push([ds,r[1],r[2].toFixed(2),bal.toFixed(2)]);
+  });
+  return rows.map(r=>r.map(c=>/[",]/.test(String(c))?'"'+String(c).replace(/"/g,'""')+'"':c).join(",")).join("\n");
+}
+
+inbox=readInbox();
+render();
+})();
+</script>
+</body>
+</html>
