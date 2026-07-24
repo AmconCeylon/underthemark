@@ -111,6 +111,18 @@ const LOGO = `<svg viewBox="0 0 64 64" width="30" height="30" aria-hidden="true"
 <rect x="12" y="23" width="40" height="3.4" rx="1.7" fill="#fff"/>
 <rect x="24.5" y="34" width="15" height="18" rx="3" fill="#fff" opacity=".95"/></svg>`;
 
+/* The Amcon mark is embedded directly in the page rather than fetched. A
+   missing file here shows broken-image alt text inside the studio's own
+   banner, which is the worst possible place for it to fail. Embedded, it
+   cannot 404, cannot be served stale by a cache, and costs one request less. */
+const AMCON_MARK = (function () {
+  try {
+    return fs.readFileSync(path.join(__dirname, 'assets', 'amcon-logo.datauri.txt'), 'utf8').trim();
+  } catch (e) {
+    return '/assets/amcon-logo.png';
+  }
+})();
+
 const FAVICON = 'data:image/svg+xml,' + encodeURIComponent(
   '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">' +
   '<rect width="64" height="64" rx="15" fill="#5646E4"/>' +
@@ -135,8 +147,8 @@ const AD_INLINE = adUnit(SITE.adslots.inline, 'inline');
 function amconBanner(kind) {
   const wide = kind === 'wide';
   return `<aside class="amcon ${wide ? 'amcon-wide' : 'amcon-inline'}">
-  <img class="amcon-logo" src="/assets/amcon-logo.png" width="64" height="64"
-       alt="Amcon Ceylon logo" loading="lazy">
+  <img class="amcon-logo" src="${AMCON_MARK}" width="76" height="76"
+       alt="Amcon Ceylon logo" decoding="async">
   <div class="amcon-body">
     <div class="amcon-kicker">Built by</div>
     <div class="amcon-name">Amcon Ceylon</div>
@@ -161,6 +173,13 @@ function head(o) {
 <meta name="robots" content="index, follow, max-image-preview:large">
 <link rel="canonical" href="${url}">
 <link rel="icon" href="${FAVICON}">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/manifest.webmanifest">
+<meta name="theme-color" content="#5646E4">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Under the Mark">
+<meta name="format-detection" content="telephone=no">
 <meta property="og:type" content="${o.type || 'website'}">
 <meta property="og:title" content="${o.title}">
 <meta property="og:description" content="${o.description}">
@@ -197,12 +216,17 @@ ${o.schema ? '<script type="application/ld+json">' + JSON.stringify(o.schema) + 
 <header class="nav">
   <div class="wrap nav-in">
     <a class="brand" href="/">${LOGO}<span>Under the Mark</span></a>
-    <nav class="links" aria-label="Main">
+    <nav class="links" id="nav" aria-label="Main">
       <a href="/how-it-works/">How it works</a>
       <a href="/articles/">Guides</a>
       <a href="/about/">About</a>
+      <a href="/chrome-extension/" class="nav-only-mobile">Chrome extension</a>
+      <a href="/privacy/" class="nav-only-mobile">Privacy</a>
       <a class="btn btn-sm" href="${SITE.app}">Open the app</a>
     </nav>
+    <button class="burger" id="burger" aria-label="Menu" aria-expanded="false" aria-controls="nav">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </header>
 <main id="main">`;
@@ -212,7 +236,7 @@ function foot() {
   return `</main>
 <footer class="foot">
   <div class="wrap foot-in">
-    <div>
+    <div class="foot-brand">
       <a class="brand brand-foot" href="/">${LOGO}<span>Under the Mark</span></a>
       <p class="foot-copy">A free budget planner that shows planned and actual side by side, and points out
         where you are paying more than you need to. Your figures never leave your device.</p>
@@ -259,6 +283,55 @@ function foot() {
   </div>
 </div>
 <script>
+/* mobile menu */
+(function(){
+  var b = document.getElementById('burger'), n = document.getElementById('nav');
+  if (!b || !n) return;
+  b.addEventListener('click', function(){
+    var open = n.classList.toggle('open');
+    b.classList.toggle('open', open);
+    b.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  n.addEventListener('click', function(e){
+    if (e.target.tagName === 'A') { n.classList.remove('open'); b.classList.remove('open');
+      b.setAttribute('aria-expanded','false'); }
+  });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape') { n.classList.remove('open'); b.classList.remove('open');
+      b.setAttribute('aria-expanded','false'); }
+  });
+})();
+
+/* install as an app — Chrome, Edge and Android fire beforeinstallprompt.
+   iOS Safari does not, so those users get instructions instead. */
+(function(){
+  var deferred = null;
+  var btns = document.querySelectorAll('[data-install]');
+  if (!btns.length) return;
+  function show(){ btns.forEach(function(b){ b.hidden = false; }); }
+  window.addEventListener('beforeinstallprompt', function(e){
+    e.preventDefault(); deferred = e; show();
+  });
+  var isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+  var standalone = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone;
+  if (isIOS && !standalone) show();
+  btns.forEach(function(b){
+    b.addEventListener('click', function(){
+      if (deferred) { deferred.prompt(); deferred = null; return; }
+      if (isIOS) alert('To install: tap the Share button in Safari, then "Add to Home Screen".');
+      else alert('Open your browser menu and choose "Install app" or "Add to Home screen".');
+    });
+  });
+  if (standalone) btns.forEach(function(b){ b.hidden = true; });
+})();
+
+/* service worker: makes the app usable offline */
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('/sw.js').catch(function(){});
+  });
+}
+
 (function(){
   var bar = document.getElementById('cookiebar');
   var saved = null;

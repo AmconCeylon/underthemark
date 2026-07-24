@@ -98,5 +98,3 @@ The reason subscriptions accumulate is that there is no moment where you see the
 The fix is to look at them all in one place, once a month, next to what you expected to spend. That is exactly what [Under the Mark](/) is for — every line carries what you planned and what you actually paid, so a price rise shows up as a difference rather than disappearing into a total. It is free, there is no account, and nothing you type leaves your browser.
 
 Once you have your list, our guide to [cheaper alternatives to the services you already pay for](/articles/cheaper-alternatives/) covers what to switch to when cancelling outright is not the answer.
-
-[[AMCON]]

@@ -97,5 +97,3 @@ That is how [Under the Mark](/) handles it — the file is read in the page, nev
 Look for what repeats. Same merchant, similar amount, roughly thirty days apart — those are your subscriptions, and they are almost always more expensive in total than people expect.
 
 From there, our guides on [cancelling subscriptions](/articles/cancel-subscriptions/) and [finding cheaper alternatives](/articles/cheaper-alternatives/) cover what to do with the list, and [budget vs actual](/articles/budget-vs-actual/) explains the method that keeps it from creeping back up.
-
-[[AMCON]]

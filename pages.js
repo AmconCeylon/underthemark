@@ -119,8 +119,12 @@ function home() {
 
 <div class="wrap"><div class="cta-band">
   <h2>It is free, and it always will be</h2>
-  <p>No account, no trial, no upgrade prompt. Open it and start typing.</p>
-  <a class="btn" href="${SITE.app}">Open Under the Mark</a>
+  <p>No account, no trial, no upgrade prompt. Open it and start typing. You can also install it
+    on your phone or computer and use it offline.</p>
+  <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+    <a class="btn" href="${SITE.app}">Open Under the Mark</a>
+    <button class="btn btn-g" data-install hidden style="color:#fff;border-color:#4A5273">Install as an app</button>
+  </div>
 </div></div>`;
 
   return page({
@@ -734,7 +738,19 @@ function build() {
   fs.rmSync(OUT, { recursive: true, force: true });
   fs.mkdirSync(OUT, { recursive: true });
   fs.mkdirSync(path.join(OUT, 'assets'), { recursive: true });
-  fs.copyFileSync(path.join(__dirname, 'assets', 'site.css'), path.join(OUT, 'assets', 'site.css'));
+  // Copy every asset, not just the stylesheet. Copying one file by name is how
+  // the Amcon logo went missing from the build.
+  fs.readdirSync(path.join(__dirname, 'assets')).forEach(f => {
+    fs.copyFileSync(path.join(__dirname, 'assets', f), path.join(OUT, 'assets', f));
+  });
+  // Root-level files: favicons, touch icons, the social card. These belong to
+  // the build, not to a manual copy step that a rebuild would wipe out.
+  const staticDir = path.join(__dirname, 'static');
+  if (fs.existsSync(staticDir)) {
+    fs.readdirSync(staticDir).forEach(f => {
+      fs.copyFileSync(path.join(staticDir, f), path.join(OUT, f));
+    });
+  }
 
   // The app is a self-contained page. It gets analytics and search metadata,
   // but deliberately no AdSense: adverts do not belong on a screen where
@@ -743,6 +759,11 @@ function build() {
   if (fs.existsSync(appSrc)) {
     let app = fs.readFileSync(appSrc, 'utf8');
     const inject = `<link rel="canonical" href="${SITE.domain}/app/">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="theme-color" content="#5646E4">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Under the Mark">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Under the Mark — free budget planner">
 <meta property="og:description" content="Plan and actual side by side on every line. Free, no account, nothing uploaded.">
@@ -755,6 +776,15 @@ function build() {
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
   gtag('config', '${SITE.ga}');
+</script>
+<script>
+  /* Offline support. The app is local-first, so it should keep working
+     without a connection once it has been opened one time. */
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () {
+      navigator.serviceWorker.register('/sw.js').catch(function () {});
+    });
+  }
 </script>
 </head>`;
     app = app.replace('</head>', inject);
@@ -774,6 +804,67 @@ function build() {
   write('disclaimer', disclaimer());
   write('articles', articleIndex());
   articles.forEach(a => write(path.join('articles', a.slug), articlePage(a, articles)));
+
+  // --- installable app ---
+  fs.writeFileSync(path.join(OUT, 'manifest.webmanifest'), JSON.stringify({
+    name: 'Under the Mark — budget planner',
+    short_name: 'Under the Mark',
+    description: 'Plan and actual side by side on every line. Free, and your figures stay on your device.',
+    start_url: '/app/',
+    scope: '/',
+    display: 'standalone',
+    orientation: 'any',
+    background_color: '#F5F6FA',
+    theme_color: '#5646E4',
+    categories: ['finance', 'productivity', 'utilities'],
+    icons: [
+      { src: '/icon-192.png', sizes: '192x192', type: 'image/png', purpose: 'any' },
+      { src: '/icon-512.png', sizes: '512x512', type: 'image/png', purpose: 'any' },
+      { src: '/icon-512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' }
+    ],
+    shortcuts: [
+      { name: 'Open the app', url: '/app/' },
+      { name: 'Guides', url: '/articles/' }
+    ]
+  }, null, 2));
+
+  fs.writeFileSync(path.join(OUT, 'sw.js'), `/* Under the Mark service worker.
+   The app must work offline, because it is local-first by design. Pages are
+   served from the network when available and from cache when not. */
+const CACHE = 'utm-v2';
+const SHELL = ['/', '/app/', '/assets/site.css', '/manifest.webmanifest',
+  '/icon-192.png', '/icon-512.png'];
+
+self.addEventListener('install', e => {
+  e.waitUntil(caches.open(CACHE).then(c => c.addAll(SHELL)).then(() => self.skipWaiting()));
+});
+
+self.addEventListener('activate', e => {
+  e.waitUntil(caches.keys().then(keys =>
+    Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))
+  ).then(() => self.clients.claim()));
+});
+
+self.addEventListener('fetch', e => {
+  const req = e.request;
+  if (req.method !== 'GET') return;
+  const url = new URL(req.url);
+  if (url.origin !== location.origin) return;           // never cache adverts or fonts
+  if (url.pathname === '/sw.js') return;
+
+  e.respondWith(
+    fetch(req).then(res => {
+      if (res && res.status === 200 && res.type === 'basic') {
+        const copy = res.clone();
+        caches.open(CACHE).then(c => c.put(req, copy));
+      }
+      return res;
+    }).catch(() =>
+      caches.match(req).then(hit => hit || caches.match('/app/'))
+    )
+  );
+});
+`);
 
   const urls = ['/', '/app/', '/how-it-works/', '/chrome-extension/', '/articles/',
     '/about/', '/contact/', '/privacy/', '/cookies/', '/terms/', '/disclaimer/']

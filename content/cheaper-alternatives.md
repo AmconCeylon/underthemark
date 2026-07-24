@@ -89,5 +89,3 @@ If you would rather not do this manually, [Under the Mark](/) has a cheaper-opti
 Prices there are shown in US dollars and not converted, deliberately: exchange rates move, and a stale converted figure is worse than an honest one you can convert yourself.
 
 Once you have decided what to drop, our guide on [how to cancel any subscription](/articles/cancel-subscriptions/) covers what the retention teams will try first.
-
-[[AMCON]]

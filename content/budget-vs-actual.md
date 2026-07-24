@@ -101,5 +101,3 @@ What a spreadsheet will not do is warn you when a subscription price rises, or t
 [Under the Mark](/) is built specifically around this method — every line carries its own planned and actual figure, the direction of good is correct for income, expenses and savings separately, and it flags where you could pay less for things you already have. It is free, needs no account, and your figures stay in your browser.
 
 If you are ready to start, our guide to [downloading your bank statement as a CSV](/articles/download-bank-statement-csv/) covers the first step for the ten most common banks.
-
-[[AMCON]]

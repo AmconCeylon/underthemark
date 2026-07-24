@@ -74,7 +74,7 @@ list.forEach(f=>{
      !html.includes('data-ad-slot=""'),'an unfilled unit leaves a visible gap');
   ok(name+' has cookie banner',html.includes('id="cookiebar"'));
   ok(name+' amcon banner shows the logo',
-     !d.querySelector('.amcon') || !!d.querySelector('.amcon-logo[src="/assets/amcon-logo.png"]'));
+     !d.querySelector('.amcon') || !!d.querySelector('.amcon-logo'));
   // AdSense wants every page reachable from every page
   const nav=[...d.querySelectorAll('.foot-cols a[href^="/"]')].map(a=>a.getAttribute('href'));
   ['/privacy/','/cookies/','/terms/','/disclaimer/','/about/','/contact/'].forEach(p=>
@@ -132,6 +132,123 @@ arts.forEach(f=>{
   ok(slug+' markdown fully rendered',
      !/\[\[AD\]\]|\[\[AMCON\]\]|\*\*|^#{2,}\s/m.test(prose.textContent),
      (prose.textContent.match(/\[\[\w+\]\]|\*\*/g)||[]).join(' '));
+});
+
+// --- the four bugs that shipped last time, now guarded ---
+{
+  // 1. every referenced asset must actually exist in the build
+  const missing=[];
+  all.forEach(f=>{
+    const html=fs.readFileSync(f,'utf8');
+    [...html.matchAll(/(?:src|href)="(\/(?:assets|icon|apple|og)[^"]*)"/g)].forEach(m=>{
+      const target=path.join(OUT,m[1]);
+      if(!fs.existsSync(target)) missing.push(m[1]+' (in '+path.relative(OUT,f)+')');
+    });
+  });
+  ok('every referenced asset exists',missing.length===0,[...new Set(missing)].join(', '));
+  ok('amcon logo shipped',fs.existsSync(path.join(OUT,'assets','amcon-logo.png')));
+  ok('amcon logo file kept for reuse',fs.existsSync(path.join(OUT,'assets','amcon-logo-128.png')));
+  // The supplied artwork had a near-black background that looked wrong on the
+  // light banner. Guard against that file coming back.
+  {
+    const buf=fs.readFileSync(path.join(OUT,'assets','amcon-logo.png'));
+    ok('amcon logo is a PNG with alpha',buf.slice(1,4).toString()==='PNG'&&buf[25]===6,
+       'colour type '+buf[25]+' (6 = RGBA)');
+    ok('amcon logo is not the raw upload',buf.length<60000,buf.length+' bytes');
+  }
+  // The mark is embedded, so it cannot 404, go stale in a cache, or survive a
+  // partial deploy as broken alt text inside the studio's own banner.
+  all.forEach(f=>{
+    const d2=new JSDOM(fs.readFileSync(f,'utf8')).window.document;
+    const b=d2.querySelector('.amcon-logo');
+    if(!b)return;
+    const rel='/'+path.relative(OUT,f).replace(/index\.html$/,'');
+    ok('amcon mark embedded on '+rel,/^data:image\/png;base64,/.test(b.getAttribute('src')),
+       (b.getAttribute('src')||'').slice(0,40));
+    ok('amcon mark has alt text on '+rel,b.alt.length>4,b.alt);
+    ok('amcon mark sized on '+rel,b.getAttribute('width')&&b.getAttribute('height'));
+  });
+  {
+    const h=fs.readFileSync(path.join(OUT,'index.html'),'utf8');
+    ok('no network request for the mark',!/src="\/assets\/amcon-logo/.test(h),'');
+    const b64=(h.match(/data:image\/png;base64,([A-Za-z0-9+/=]+)/)||[])[1]||'';
+    ok('embedded mark is a real png',Buffer.from(b64,'base64').slice(1,4).toString()==='PNG');
+    ok('embedded mark stays small',b64.length<12000,b64.length+' base64 chars');
+  }
+
+  // 2. exactly one Amcon banner per page, never two
+  list.forEach(f=>{
+    const d=new JSDOM(fs.readFileSync(f,'utf8')).window.document;
+    const n=d.querySelectorAll('.amcon').length;
+    ok('one amcon banner on '+('/'+path.relative(OUT,f).replace(/index\.html$/,'')),n<=1,n+' banners');
+  });
+
+  // 3. footer link columns sit on one row
+  const css=fs.readFileSync(path.join(OUT,'assets','site.css'),'utf8');
+  const fd=new JSDOM(fs.readFileSync(path.join(OUT,'index.html'),'utf8')).window.document;
+  // Brand + four link columns must sit on one row: five grid items, one track each.
+  ok('footer grid is five across',
+     /\.foot-in\{display:grid;grid-template-columns:minmax\(200px,1\.5fr\) repeat\(4,minmax\(0,1fr\)\)/.test(css),
+     (css.match(/\.foot-in\{[^}]*/)||[''])[0]);
+  ok('foot-cols dissolves into the row',/\.foot-cols\{display:contents\}/.test(css),
+     'without display:contents the columns form a nested grid and wrap');
+  const items=[...fd.querySelector('.foot-in').querySelectorAll(':scope > .foot-brand, :scope > .foot-cols > div')];
+  ok('five footer sections on one row',items.length===5,items.length+' items');
+  const cols=[...fd.querySelectorAll('.foot-cols > div h4')].map(h=>h.textContent.trim());
+  ok('footer has product, guides, company, legal',cols.length===4,cols.join(' | '));
+  ok('legal sits next to company',cols[2]==='Company'&&cols[3]==='Legal',cols.join(' | '));
+  ok('footer brand block is tagged',!!fd.querySelector('.foot-brand'));
+  ok('footer stacks sensibly on phones',css.includes('@media(max-width:480px)'));
+
+  // 4. mobile navigation actually works rather than hiding links
+  ok('burger button present',!!fd.querySelector('#burger'));
+  ok('nav is toggleable',!!fd.querySelector('#nav'));
+  ok('links are not simply hidden on mobile',!/\.links a:not\(\.btn\)\{display:none\}/.test(css));
+  ok('has a tablet breakpoint',css.includes('@media(max-width:820px)'));
+  ok('has a phone breakpoint',css.includes('@media(max-width:620px)'));
+  ok('has a small-phone breakpoint',css.includes('@media(max-width:380px)'));
+  ok('handles installed display mode',css.includes('display-mode:standalone'));
+}
+
+// --- installable app ---
+{
+  const mf=path.join(OUT,'manifest.webmanifest');
+  ok('web manifest exists',fs.existsSync(mf));
+  const m=JSON.parse(fs.readFileSync(mf,'utf8'));
+  ok('manifest opens the app',m.start_url==='/app/',m.start_url);
+  ok('manifest is standalone',m.display==='standalone');
+  ok('manifest has 192 and 512 icons',
+     m.icons.some(i=>i.sizes==='192x192')&&m.icons.some(i=>i.sizes==='512x512'));
+  ok('manifest has a maskable icon',m.icons.some(i=>i.purpose==='maskable'));
+  m.icons.forEach(i=>ok('manifest icon exists '+i.src,fs.existsSync(path.join(OUT,i.src))));
+  ok('manifest has theme colour',m.theme_color==='#5646E4');
+  ok('service worker exists',fs.existsSync(path.join(OUT,'sw.js')));
+  const sw=fs.readFileSync(path.join(OUT,'sw.js'),'utf8');
+  ok('sw caches the app shell',sw.includes("'/app/'"));
+  ok('sw skips cross-origin requests',sw.includes('url.origin !== location.origin'));
+  ok('sw cleans old caches',sw.includes('caches.delete'));
+  ok('sw cache version bumped',/CACHE = 'utm-v[2-9]/.test(sw),
+     'a stale cache would keep serving the previous build');
+  ok('sw falls back offline',sw.includes('caches.match'));
+  const appHtml=fs.readFileSync(path.join(OUT,'app','index.html'),'utf8');
+  ok('app links the manifest',appHtml.includes('manifest.webmanifest'));
+  ok('app registers the sw',appHtml.includes('serviceWorker'));
+  ok('install button present',
+     fs.readFileSync(path.join(OUT,'index.html'),'utf8').includes('data-install'));
+}
+
+// --- mobile friendliness on every page ---
+list.concat([path.join(OUT,'app','index.html')]).forEach(f=>{
+  const html=fs.readFileSync(f,'utf8');
+  const d=new JSDOM(html).window.document;
+  const name='/'+path.relative(OUT,f).replace(/index\.html$/,'');
+  const vp=d.querySelector('meta[name=viewport]');
+  ok(name+' viewport is responsive',
+     vp&&/width=device-width/.test(vp.content)&&!/user-scalable=no|maximum-scale=1/.test(vp.content),
+     vp&&vp.content);
+  ok(name+' has theme colour',!!d.querySelector('meta[name=theme-color]'));
+  ok(name+' has apple touch icon',!!d.querySelector('link[rel=apple-touch-icon]'));
+  ok(name+' no fixed pixel widths in markup',!/style="[^"]*width:\s*\d{4,}px/.test(html));
 });
 
 // --- AdSense policy requirements ---
