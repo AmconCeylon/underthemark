@@ -50,8 +50,32 @@ counts, schema.org markup, sitemap completeness and robots.txt.
 - `app-source/index.html` — the app, copied to `/app/` with analytics injected
 - `dist/` — generated output, safe to delete and rebuild
 
+## Turning adverts on
+
+The AdSense script and the ownership meta tag are already on every page, so
+**Auto ads work as soon as your account is approved** with no further changes.
+Google places them itself.
+
+If you later want fixed placements as well:
+
+1. In AdSense, create a display unit and copy its numeric slot ID.
+2. Open `build.js` and fill in `SITE.adslots`:
+
+```js
+adslots: { inline: '1234567890', sidebar: '0987654321' },
+```
+
+3. Rebuild.
+
+While those stay blank, no manual `<ins>` block is written at all. This is
+deliberate: an `<ins>` with a made-up slot ID never fills and leaves a large
+blank gap on the page, which is what the first build did.
+
 ## Notes
 
+- Policy pages required for AdSense are all generated: About, Contact, Privacy,
+  Cookie policy, Terms of use and Disclaimer. `verify.js` fails the build if any
+  is missing, undated, or under 250 words.
 - AdSense runs on the marketing pages only. It is deliberately kept off `/app/`:
   adverts do not belong on a screen where someone is entering financial figures,
   and utility screens with little text are weak AdSense pages anyway.

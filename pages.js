@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const B = require('./build.js');
-const { SITE, md, frontMatter, page, amconBanner, AD_INLINE, LOGO, OUT, CONTENT } = B;
+const { SITE, md, frontMatter, page, amconBanner, adUnit, AD_INLINE, LOGO, OUT, CONTENT } = B;
 
 function write(rel, html) {
   const dir = path.join(OUT, rel);
@@ -263,9 +263,11 @@ function extensionPage() {
 /* ---------- privacy ---------- */
 function privacy() {
   const body = `<section><div class="wrap" style="max-width:760px">
-  <h1 style="font-size:clamp(30px,4vw,42px);font-weight:800;margin-bottom:16px">Privacy</h1>
+  <h1 style="font-size:clamp(30px,4vw,42px);font-weight:800;margin-bottom:14px">Privacy policy</h1>
   <p class="art-lede">The short version: your budget figures never leave your device, and we could not
     read them if we wanted to.</p>
+  <p style="font-family:var(--mono);font-size:12.5px;color:var(--faint);margin:-14px 0 30px">
+    Last updated 24 July 2026</p>
   <div class="prose">
     <h2>Your financial data</h2>
     <p>Everything you type into Under the Mark — income, expenses, savings, imported statements — is stored
@@ -296,16 +298,352 @@ function privacy() {
       stated on the page. Commission never decides what is recommended or in what order — several of the
       alternatives we suggest most often are free and earn nothing.</p>
 
+    <h2>Your rights</h2>
+    <p>Data protection law in the EU, the UK and California gives you rights to access, correct, export and
+      delete personal data a company holds about you. In our case those rights are unusually simple to
+      exercise: we hold none of your financial data, so there is nothing for us to hand over or erase.</p>
+    <p>Your budget lives in your browser. You can export it at any time from the Data page, and delete it
+      completely with the reset button there or by clearing your browser storage. Neither action requires
+      asking us.</p>
+    <p>For the analytics and advertising cookies this website sets, you can withdraw consent at any time
+      through the cookie banner, your browser settings, or
+      <a href="https://adssettings.google.com" target="_blank" rel="noopener">Google's advert settings</a>.</p>
+
+    <h2>Children</h2>
+    <p>This service is not directed at children under 13, and we do not knowingly collect data from them.
+      As we collect no personal data at all, there is nothing held about any user regardless of age.</p>
+
+    <h2>Data retention</h2>
+    <p>We retain no personal data, so there is no retention period to state. Analytics data held by Google
+      follows Google's own retention settings. Your budget data stays on your device for as long as you
+      keep it there.</p>
+
+    <h2>Changes to this policy</h2>
+    <p>If we change what this site or the app does with data, this page is updated and the date at the top
+      changes. Material changes will also be noted on the site itself.</p>
+
     <h2>Contact</h2>
     <p>Under the Mark is built and maintained by
       <a href="${SITE.amcon}" target="_blank" rel="noopener">Amcon Ceylon</a>, a digital product studio in
-      Colombo, Sri Lanka. Questions can go through the contact form on their site.</p>
+      Colombo, Sri Lanka, founded in 2017. Privacy questions can go through our
+      <a href="/contact/">contact page</a> or the form at
+      <a href="${SITE.amcon}" target="_blank" rel="noopener">amconceylon.co</a>.</p>
   </div>
 </div></section>`;
   return page({
     path: '/privacy/', title: 'Privacy — Under the Mark',
     description: 'Under the Mark stores your budget in your own browser. Nothing is uploaded. This page explains exactly what the app, the extension and this website do with data.',
     body
+  });
+}
+
+
+/* ---------- policy and company pages ---------- */
+function shell(o) {
+  return page({
+    path: o.path, title: o.title, description: o.description,
+    body: `<section><div class="wrap" style="max-width:780px">
+      <h1 style="font-size:clamp(30px,4vw,42px);font-weight:800;margin-bottom:14px">${o.h1}</h1>
+      <p class="art-lede">${o.lede}</p>
+      <p style="font-family:var(--mono);font-size:12.5px;color:var(--faint);margin:-14px 0 30px">
+        Last updated ${o.updated || '24 July 2026'}</p>
+      <div class="prose">${o.body}</div>
+      ${o.banner === false ? '' : amconBanner('inline')}
+    </div></section>`
+  });
+}
+
+function about() {
+  return shell({
+    path: '/about/', h1: 'About Under the Mark',
+    title: 'About — Under the Mark',
+    description: 'Who builds Under the Mark, why it is free, and how a budget planner that shows planned against actual spending came to exist.',
+    lede: 'A free budget planner built by a small product studio, because the tool we wanted did not exist.',
+    body: `
+      <h2>What this is</h2>
+      <p>Under the Mark is a free budget planner. It does one thing that most budgeting tools do not:
+        it shows what you planned to spend and what you actually spent on the same line, with the
+        difference beside them. It also points out where you are paying more than you need to for
+        services you already subscribe to.</p>
+      <p>There is no account, no paid tier and no trial. Everything you type stays in your own browser.</p>
+
+      <h2>Why it was built</h2>
+      <p>Most budgeting apps are trackers. They are very good at telling you where your money went once
+        it has already gone, which is interesting but not much use. The thing that actually changes
+        behaviour is seeing the gap between intention and reality while the month is still running.</p>
+      <p>That comparison — planned against actual — is standard practice in every finance department in
+        the world, and almost absent from consumer budgeting tools. So we built one around it.</p>
+
+      <h2>Who builds it</h2>
+      <p>Under the Mark is made and maintained by
+        <a href="${SITE.amcon}" target="_blank" rel="noopener">Amcon Ceylon</a>, a digital product studio
+        based in Colombo, Sri Lanka. The studio was founded in 2017 and builds web applications, browser
+        extensions and product websites for clients internationally.</p>
+      <p>The same team writes the guides on this site. Where a guide covers a service or a price, we check
+        it against the provider directly rather than repeating what other articles say.</p>
+
+      <h2>How it stays free</h2>
+      <p>Adverts on the guide pages, and occasional affiliate links where we recommend an alternative
+        service. That is the whole business model.</p>
+      <p>Two rules we hold to. Commission never decides what we recommend or in what order — several of
+        the alternatives we suggest most often are free and earn us nothing. And there are no adverts
+        inside the app itself, only on the articles.</p>
+
+      <h2>What we do not do</h2>
+      <ul>
+        <li>We do not ask for your bank login. There is no bank connection of any kind.</li>
+        <li>We do not upload, store or transmit your financial figures. There is no server holding them.</li>
+        <li>We do not sell data, because we do not have any to sell.</li>
+        <li>We do not give financial advice. See the <a href="/disclaimer/">disclaimer</a>.</li>
+      </ul>
+
+      <h2>Getting in touch</h2>
+      <p>Corrections to a guide, a price that has changed, or a bug in the app are all welcome. The
+        <a href="/contact/">contact page</a> has the details.</p>`
+  });
+}
+
+function contact() {
+  return shell({
+    path: '/contact/', h1: 'Contact',
+    title: 'Contact — Under the Mark',
+    description: 'How to reach the team behind Under the Mark for corrections, bug reports, press enquiries or business questions.',
+    lede: 'Corrections, bugs and questions all reach a real person.',
+    body: `
+      <h2>Who to contact</h2>
+      <p>Under the Mark is built and maintained by Amcon Ceylon, a digital product studio in Colombo,
+        Sri Lanka. Everything about this site and the app reaches the same team.</p>
+
+      <h2>How to reach us</h2>
+      <ul>
+        <li><strong>General, press and business enquiries</strong> — through the contact form at
+          <a href="${SITE.amcon}" target="_blank" rel="noopener">amconceylon.co</a></li>
+        <li><strong>Corrections to a guide</strong> — tell us the page and what is wrong. Prices change
+          often and we would rather hear it from you than leave it stale.</li>
+        <li><strong>Bugs in the app or the extension</strong> — tell us your browser and what you were
+          doing. Since nothing is uploaded, we cannot see your data, so detail helps.</li>
+        <li><strong>Privacy questions</strong> — anything about what is stored and where, covered in the
+          <a href="/privacy/">privacy policy</a>.</li>
+      </ul>
+
+      <h2>Response times</h2>
+      <p>We are a small team in the Sri Lanka time zone (GMT+5:30). Most messages are answered within two
+        working days. Corrections to published guides are usually applied faster than that.</p>
+
+      <h2>What we cannot help with</h2>
+      <p>We cannot advise on your personal finances, investments, debts or tax. We are software builders,
+        not financial advisers, and the <a href="/disclaimer/">disclaimer</a> explains why that line
+        matters. For personal advice, speak to a qualified professional in your own country.</p>
+
+      <h2>Reporting a price that has changed</h2>
+      <p>The cheaper-options feature and several of our guides quote prices for third-party services.
+        These move constantly, and providers rarely announce it. If you spot one that is out of date, tell
+        us the service and what it costs now, and ideally where you saw it. We would far rather correct a
+        figure than have somebody act on a stale one.</p>
+      <p>Every price we publish carries the month it was checked, so you can judge for yourself how much
+        to trust it before you act.</p>
+
+      <h2>Reporting a bug</h2>
+      <p>Because nothing you enter is transmitted to us, we cannot look at your data to reproduce a
+        problem. That makes your description the only evidence we have. The details that help most:</p>
+      <ul>
+        <li>Which browser and version, and whether you are on desktop or mobile</li>
+        <li>What you were doing immediately before it went wrong</li>
+        <li>Whether it happens every time or only sometimes</li>
+        <li>For CSV import problems, the header row of your file and one or two rows with the figures
+          changed to something made up. Never send us a real statement.</li>
+      </ul>
+
+      <h2>Suggesting a guide</h2>
+      <p>If there is a service you want cancellation instructions for, or a subscription you suspect has a
+        cheaper tier nobody talks about, suggest it. Reader suggestions are where a good share of our
+        guides start, because they come from someone who actually hit the problem.</p>
+
+      <h2>Business and partnership enquiries</h2>
+      <p>Amcon Ceylon builds web applications, browser extensions and product sites for clients
+        internationally. If you have seen something here you would like built for your own business, the
+        studio's contact form is the fastest route.</p>
+
+      <h2>Business details</h2>
+      <p>Amcon Ceylon &mdash; digital product studio, Colombo, Sri Lanka. Founded 2017. Top Rated Plus and
+        Expert Vetted on Upwork.
+        <a href="${SITE.amcon}" target="_blank" rel="noopener">amconceylon.co</a></p>`
+  });
+}
+
+function terms() {
+  return shell({
+    path: '/terms/', h1: 'Terms of use',
+    title: 'Terms of use — Under the Mark',
+    description: 'The terms covering use of the Under the Mark website, app and Chrome extension, including licence, acceptable use and limitation of liability.',
+    lede: 'The plain terms covering the website, the app and the extension.',
+    body: `
+      <h2>Agreement</h2>
+      <p>By using this website, the Under the Mark app or the Chrome extension, you agree to these terms.
+        If you do not agree, please do not use them.</p>
+
+      <h2>What you get</h2>
+      <p>Under the Mark is provided free of charge for personal use. You may use it for yourself, your
+        household or your own business. No account is required and no payment is taken.</p>
+      <p>We grant you a personal, non-exclusive, revocable licence to use the software. We keep ownership
+        of the software, the site design and the written guides.</p>
+
+      <h2>Your data is yours</h2>
+      <p>Anything you type into the app stays on your device. We do not claim any rights over it, and we
+        have no way to access it. Because it lives in your browser, keeping backups is your
+        responsibility. The app includes an export function for exactly this reason.</p>
+      <p>Clearing your browser data, using private browsing, or switching device or browser will lose
+        unsaved work. We cannot recover it, because we never had it.</p>
+
+      <h2>Acceptable use</h2>
+      <ul>
+        <li>Do not use the service unlawfully or to break anyone else's rights.</li>
+        <li>Do not attempt to disrupt the site, or access parts of it you are not meant to.</li>
+        <li>Do not scrape, copy or republish the guides without permission.</li>
+        <li>Do not misrepresent the extension or redistribute a modified version as ours.</li>
+      </ul>
+
+      <h2>No warranty</h2>
+      <p>The service is provided "as is". We work hard to keep it accurate and reliable, and we test it
+        thoroughly, but we do not warrant that it is free of errors or that it will always be available.
+        Figures shown, including prices of third-party services, may be out of date.</p>
+
+      <h2>Limitation of liability</h2>
+      <p>To the fullest extent permitted by law, we are not liable for any loss arising from use of the
+        service, including financial loss, lost data or lost profit. Since the service is free and holds
+        none of your data, our total liability is limited accordingly. Nothing here excludes liability
+        that cannot be excluded by law.</p>
+
+      <h2>Third-party services</h2>
+      <p>The site displays adverts through Google AdSense and measures traffic through Google Analytics.
+        Guides may link to third-party services, sometimes through affiliate links. We are not
+        responsible for third-party sites, their content, or their terms.</p>
+
+      <h2>Changes</h2>
+      <p>We may update these terms. Material changes will be reflected in the date at the top of this
+        page. Continuing to use the service after a change means you accept it.</p>
+
+      <h2>Governing law</h2>
+      <p>These terms are governed by the laws of Sri Lanka. Nothing here removes any consumer rights you
+        have under the law of your own country.</p>
+
+      <h2>Contact</h2>
+      <p>Questions about these terms can go through the <a href="/contact/">contact page</a>.</p>`
+  });
+}
+
+function cookies() {
+  return shell({
+    path: '/cookies/', h1: 'Cookie policy',
+    title: 'Cookie policy — Under the Mark',
+    description: 'What cookies Under the Mark uses, which are set by Google AdSense and Analytics, and how to control or refuse them.',
+    lede: 'What is set, by whom, and how to turn it off.',
+    body: `
+      <h2>The short version</h2>
+      <p>This website uses cookies for two things: counting visitors and showing adverts. The app itself
+        uses no cookies at all — it uses browser storage to keep your budget on your device, and that
+        storage is never transmitted anywhere.</p>
+
+      <h2>What a cookie is</h2>
+      <p>A small text file a website stores in your browser so it can recognise your browser on a later
+        visit. Some are set by us, most by the services we use.</p>
+
+      <h2>Cookies on this site</h2>
+      <div class="tw"><table>
+        <thead><tr><th>Type</th><th>Set by</th><th>Purpose</th></tr></thead>
+        <tbody>
+        <tr><td>Necessary</td><td>Under the Mark</td>
+          <td>Remembers your cookie choice so we stop asking. Stored on your device only.</td></tr>
+        <tr><td>Analytics</td><td>Google Analytics</td>
+          <td>Counts visits and which guides are read, so we know what to write next. Measures this
+            website only.</td></tr>
+        <tr><td>Advertising</td><td>Google AdSense</td>
+          <td>Serves adverts and limits how often you see the same one. May personalise adverts if you
+            accepted all cookies.</td></tr>
+        </tbody>
+      </table></div>
+
+      <h2>What the app stores, which is not a cookie</h2>
+      <p>The Under the Mark app keeps your budget in browser local storage. This is technically different
+        from a cookie: it is never sent to any server, is not readable by other websites, and is not used
+        for tracking. It exists so your figures are still there when you come back.</p>
+      <p>The Chrome extension similarly stores queued purchases on your device using extension storage.
+        Nothing is transmitted.</p>
+
+      <h2>Your choices</h2>
+      <ul>
+        <li><strong>The banner.</strong> Choosing "Essential only" means adverts are served without
+          personalisation. You will still see adverts, because they pay for the site, but they will not be
+          based on a profile of you.</li>
+        <li><strong>Google's own controls.</strong> Manage advert personalisation across all sites at
+          <a href="https://adssettings.google.com" target="_blank" rel="noopener">adssettings.google.com</a>.</li>
+        <li><strong>Your browser.</strong> Every browser lets you block or delete cookies in its settings.
+          Blocking them will not break the app, because the app does not use them.</li>
+        <li><strong>Opting out of Analytics</strong> is possible with Google's
+          <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener">opt-out add-on</a>.</li>
+      </ul>
+
+      <h2>Third-party information</h2>
+      <p>Google's use of advertising cookies enables it and its partners to serve adverts based on your
+        visits to this and other sites. More detail is in
+        <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noopener">Google's
+        advertising policies</a>.</p>
+
+      <h2>Changes</h2>
+      <p>If we add or remove a service that sets cookies, this page is updated and the date at the top
+        changes.</p>`
+  });
+}
+
+function disclaimer() {
+  return shell({
+    path: '/disclaimer/', h1: 'Disclaimer',
+    title: 'Disclaimer — Under the Mark',
+    description: 'Under the Mark is a budgeting tool, not financial advice. This page explains the limits of what the app and the guides can tell you.',
+    lede: 'This is a budgeting tool and a set of guides. It is not financial advice.',
+    body: `
+      <h2>Not financial advice</h2>
+      <p>Everything on this website and in the Under the Mark app is general information for educational
+        purposes. It is not financial, investment, tax, legal or accounting advice, and it does not take
+        account of your circumstances, your income, your obligations or your goals.</p>
+      <p>We are software builders, not licensed financial advisers, and we are not regulated by any
+        financial authority. Before making a decision that affects your finances, speak to a qualified
+        professional in your own country.</p>
+
+      <h2>Prices and third-party services</h2>
+      <p>Our guides and the app's cheaper-options feature list prices for third-party services. These are
+        starting figures gathered at a point in time. Prices change frequently, differ by country, and
+        vary with promotions and existing contracts.</p>
+      <p><strong>Always check the provider's own pricing page before cancelling, switching or signing up
+        for anything.</strong> We are not responsible for a decision made on a figure that has since
+        changed.</p>
+
+      <h2>Accuracy of calculations</h2>
+      <p>The app does arithmetic on figures you enter. If those figures are wrong or incomplete, the
+        totals will be too. It is a planning aid, not a substitute for your bank statement or your
+        accountant. Always reconcile against your actual statements.</p>
+
+      <h2>Automatic detection</h2>
+      <p>The Chrome extension attempts to identify purchase totals on order confirmation pages. This is a
+        best-effort guess and it is sometimes wrong, which is why nothing is ever saved without your
+        confirmation. Check the figure before accepting it.</p>
+
+      <h2>Affiliate relationships</h2>
+      <p>Some outbound links to alternative services may earn us a commission at no additional cost to
+        you. This never determines what we recommend or the order we list options in. Many of the
+        alternatives we suggest most often are free and earn us nothing.</p>
+
+      <h2>External links</h2>
+      <p>We link to third-party sites for your convenience. We do not control them and are not responsible
+        for their content, accuracy, products or privacy practices.</p>
+
+      <h2>Your responsibility</h2>
+      <p>You are responsible for decisions you make about your own money, and for keeping backups of
+        anything you enter into the app. Because your data never leaves your device, we cannot recover it
+        if it is lost.</p>
+
+      <h2>Questions</h2>
+      <p>If anything here is unclear, the <a href="/contact/">contact page</a> reaches us.</p>`
   });
 }
 
@@ -369,12 +707,7 @@ function articlePage(a, all) {
       <p>Free, no account, and your figures never leave your browser.</p>
       <a class="btn btn-sm" href="${SITE.app}">Open Under the Mark</a></div>
     ${toc ? `<div class="side-card"><h4>On this page</h4><nav class="toc">${toc}</nav></div>` : ''}
-    <div class="ad" aria-label="Advertisement">
-      <div class="ad-label">Advertisement</div>
-      <ins class="adsbygoogle" style="display:block" data-ad-client="${SITE.adsense}"
-           data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
-      <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
-    </div>
+    ${adUnit(SITE.adslots.sidebar, 'sidebar')}
     ${others.length ? `<div class="side-card"><h4>Read next</h4>${others.map(o =>
       `<p style="margin-bottom:10px"><a href="/articles/${o.slug}/">${o.meta.title}</a></p>`).join('')}</div>` : ''}
   </aside>
@@ -434,10 +767,16 @@ function build() {
   write('how-it-works', howItWorks());
   write('chrome-extension', extensionPage());
   write('privacy', privacy());
+  write('about', about());
+  write('contact', contact());
+  write('terms', terms());
+  write('cookies', cookies());
+  write('disclaimer', disclaimer());
   write('articles', articleIndex());
   articles.forEach(a => write(path.join('articles', a.slug), articlePage(a, articles)));
 
-  const urls = ['/', '/app/', '/how-it-works/', '/chrome-extension/', '/articles/', '/privacy/']
+  const urls = ['/', '/app/', '/how-it-works/', '/chrome-extension/', '/articles/',
+    '/about/', '/contact/', '/privacy/', '/cookies/', '/terms/', '/disclaimer/']
     .concat(articles.map(a => '/articles/' + a.slug + '/'));
   fs.writeFileSync(path.join(OUT, 'sitemap.xml'),
     '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +

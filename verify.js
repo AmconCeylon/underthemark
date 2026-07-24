@@ -19,8 +19,8 @@ function pages(dir,acc){
 const all=pages(OUT);
 const APP='/app/';
 const list=all.filter(f=>!f.includes(path.sep+'app'+path.sep));
-ok('all marketing pages built',list.length===9,list.length);
-ok('app page built',all.length===10,all.length);
+ok('all marketing pages built',list.length===14,list.length);
+ok('app page built',all.length===15,all.length);
 
 /* The app is a tool, not an article. It is checked on its own terms:
    analytics and search metadata yes, adverts deliberately no. */
@@ -66,6 +66,19 @@ list.forEach(f=>{
   ok(name+' has GA4 '+GA,html.includes('googletagmanager.com/gtag/js?id='+GA)&&
      html.includes("gtag('config', '"+GA+"')"));
   ok(name+' has adsense script',html.includes('pagead2.googlesyndication.com'));
+  ok(name+' has adsense ownership meta',
+     !!d.querySelector('meta[name="google-adsense-account"][content="ca-pub-3792288400696045"]'));
+  ok(name+' has robots meta',!!d.querySelector('meta[name=robots]'));
+  ok(name+' has NO empty ad blocks',
+     (html.match(/<ins class="adsbygoogle"/g)||[]).length===0 ||
+     !html.includes('data-ad-slot=""'),'an unfilled unit leaves a visible gap');
+  ok(name+' has cookie banner',html.includes('id="cookiebar"'));
+  ok(name+' amcon banner shows the logo',
+     !d.querySelector('.amcon') || !!d.querySelector('.amcon-logo[src="/assets/amcon-logo.png"]'));
+  // AdSense wants every page reachable from every page
+  const nav=[...d.querySelectorAll('.foot-cols a[href^="/"]')].map(a=>a.getAttribute('href'));
+  ['/privacy/','/cookies/','/terms/','/disclaimer/','/about/','/contact/'].forEach(p=>
+    ok(name+' footer links '+p,nav.includes(p),nav.join(' ')));
 
   // --- amcon backlinks ---
   const amcon=[...d.querySelectorAll('a[href*="amconceylon.co"]')];
@@ -120,6 +133,33 @@ arts.forEach(f=>{
      !/\[\[AD\]\]|\[\[AMCON\]\]|\*\*|^#{2,}\s/m.test(prose.textContent),
      (prose.textContent.match(/\[\[\w+\]\]|\*\*/g)||[]).join(' '));
 });
+
+// --- AdSense policy requirements ---
+const required=['/about/','/contact/','/privacy/','/cookies/','/terms/','/disclaimer/'];
+required.forEach(p=>{
+  const f=path.join(OUT,p.replace(/^\/|\/$/g,''),'index.html');
+  ok('policy page exists '+p,fs.existsSync(f));
+  if(!fs.existsSync(f))return;
+  const html=fs.readFileSync(f,'utf8');
+  const d=new JSDOM(html).window.document;
+  const words=d.querySelector('.prose').textContent.trim().split(/\s+/).length;
+  ok('policy '+p+' has real content',words>=250,words+' words');
+  ok('policy '+p+' dated',/Last updated/.test(html));
+});
+{
+  const dis=fs.readFileSync(path.join(OUT,'disclaimer','index.html'),'utf8');
+  ok('disclaimer states not financial advice',/not financial/i.test(dis)&&/not .{0,30}advisers/i.test(dis));
+  ok('disclaimer covers affiliate links',/affiliate/i.test(dis));
+  ok('disclaimer warns prices change',/prices change/i.test(dis));
+  const cok=fs.readFileSync(path.join(OUT,'cookies','index.html'),'utf8');
+  ok('cookie policy names AdSense',/AdSense/.test(cok));
+  ok('cookie policy names Analytics',/Google Analytics/.test(cok));
+  ok('cookie policy offers opt-out',/adssettings\.google\.com/.test(cok));
+  const pr=fs.readFileSync(path.join(OUT,'privacy','index.html'),'utf8');
+  ok('privacy names third parties',/AdSense/.test(pr)&&/Analytics/.test(pr));
+  const ab=fs.readFileSync(path.join(OUT,'about','index.html'),'utf8');
+  ok('about identifies the publisher',/Amcon Ceylon/.test(ab)&&/Colombo/.test(ab));
+}
 
 // --- sitemap, robots, ads.txt ---
 const sm=fs.readFileSync(path.join(OUT,'sitemap.xml'),'utf8');

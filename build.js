@@ -11,6 +11,10 @@ const SITE = {
   tagline: 'See what you planned and what you actually spent, side by side.',
   ga: 'G-3JFGX4Y3RC',
   adsense: 'ca-pub-3792288400696045',
+  // Leave these blank until you create ad units in AdSense and paste the
+  // numeric slot IDs here. While blank, no manual unit is rendered at all,
+  // so there are no empty gaps. Auto ads still run from the page-level script.
+  adslots: { inline: '', sidebar: '' },
   extension: 'https://chromewebstore.google.com/',
   app: '/app/',
   amcon: 'https://amconceylon.co'
@@ -113,20 +117,31 @@ const FAVICON = 'data:image/svg+xml,' + encodeURIComponent(
   '<rect x="12" y="23" width="40" height="3.4" rx="1.7" fill="#fff"/>' +
   '<rect x="24.5" y="34" width="15" height="18" rx="3" fill="#fff"/></svg>');
 
-const AD_INLINE = `<div class="ad ad-inline" aria-label="Advertisement">
+/* Renders nothing unless a real numeric slot ID is configured. An <ins> with a
+   made-up slot never fills, and an unfilled unit leaves a large blank gap on the
+   page — which is both ugly and a poor look during AdSense review. */
+function adUnit(slot, kind) {
+  if (!slot) return '';
+  const fmt = kind === 'sidebar' ? 'auto' : 'fluid';
+  return `<div class="ad ad-${kind || 'inline'}">
+  <div class="ad-label">Advertisement</div>
   <ins class="adsbygoogle" style="display:block" data-ad-client="${SITE.adsense}"
-       data-ad-slot="auto" data-ad-format="fluid" data-full-width-responsive="true"></ins>
+       data-ad-slot="${slot}" data-ad-format="${fmt}" data-full-width-responsive="true"></ins>
   <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
 </div>\n`;
+}
+const AD_INLINE = adUnit(SITE.adslots.inline, 'inline');
 
 function amconBanner(kind) {
   const wide = kind === 'wide';
   return `<aside class="amcon ${wide ? 'amcon-wide' : 'amcon-inline'}">
+  <img class="amcon-logo" src="/assets/amcon-logo.png" width="64" height="64"
+       alt="Amcon Ceylon logo" loading="lazy">
   <div class="amcon-body">
     <div class="amcon-kicker">Built by</div>
     <div class="amcon-name">Amcon Ceylon</div>
     <p class="amcon-copy">${wide
-      ? 'A digital product studio in Colombo. We design and build web apps, Chrome extensions and product sites for teams around the world.'
+      ? 'A digital product studio in Colombo, Sri Lanka. We design and build web apps, Chrome extensions and product sites for teams around the world.'
       : 'Need something like this built for your business? We design and build web apps and browser extensions from Colombo.'}</p>
     <a class="amcon-cta" href="${SITE.amcon}" target="_blank" rel="noopener">Visit amconceylon.co &rarr;</a>
   </div>
@@ -142,6 +157,8 @@ function head(o) {
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${o.title}</title>
 <meta name="description" content="${o.description}">
+<meta name="google-adsense-account" content="${SITE.adsense}">
+<meta name="robots" content="index, follow, max-image-preview:large">
 <link rel="canonical" href="${url}">
 <link rel="icon" href="${FAVICON}">
 <meta property="og:type" content="${o.type || 'website'}">
@@ -163,6 +180,16 @@ ${o.schema ? '<script type="application/ld+json">' + JSON.stringify(o.schema) + 
   gtag('js', new Date());
   gtag('config', '${SITE.ga}');
 </script>
+<script>
+  /* Respect the cookie choice before AdSense loads. Declining serves
+     non-personalised adverts rather than no adverts. */
+  (function(){
+    var c = null;
+    try { c = localStorage.getItem('utm.consent'); } catch (e) {}
+    window.adsbygoogle = window.adsbygoogle || [];
+    if (c !== 'all') window.adsbygoogle.requestNonPersonalizedAds = 1;
+  })();
+</script>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${SITE.adsense}" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -173,7 +200,7 @@ ${o.schema ? '<script type="application/ld+json">' + JSON.stringify(o.schema) + 
     <nav class="links" aria-label="Main">
       <a href="/how-it-works/">How it works</a>
       <a href="/articles/">Guides</a>
-      <a href="/privacy/">Privacy</a>
+      <a href="/about/">About</a>
       <a class="btn btn-sm" href="${SITE.app}">Open the app</a>
     </nav>
   </div>
@@ -201,10 +228,16 @@ function foot() {
         <a href="/articles/budget-vs-actual/">Budget vs actual</a>
         <a href="/articles/cancel-subscriptions/">Cancelling subscriptions</a>
       </div>
-      <div><h4>More</h4>
-        <a href="/privacy/">Privacy</a>
+      <div><h4>Company</h4>
+        <a href="/about/">About</a>
+        <a href="/contact/">Contact</a>
         <a href="${SITE.amcon}" target="_blank" rel="noopener">Amcon Ceylon</a>
-        <a href="${SITE.amcon}/contact" target="_blank" rel="noopener">Contact</a>
+      </div>
+      <div><h4>Legal</h4>
+        <a href="/privacy/">Privacy policy</a>
+        <a href="/cookies/">Cookie policy</a>
+        <a href="/terms/">Terms of use</a>
+        <a href="/disclaimer/">Disclaimer</a>
       </div>
     </div>
   </div>
@@ -214,12 +247,38 @@ function foot() {
       a digital product studio in Colombo.</span>
   </div>
 </footer>
+<div id="cookiebar" class="cookiebar" role="dialog" aria-label="Cookie choices" hidden>
+  <div class="cookiebar-in">
+    <p>We use cookies for analytics and to show adverts, which is what keeps
+      Under the Mark free. Your budget figures are never part of this &mdash; they stay in your
+      browser and are never sent anywhere. <a href="/cookies/">Read the cookie policy</a>.</p>
+    <div class="cookiebar-btns">
+      <button id="ck-no" class="btn btn-g btn-sm" type="button">Essential only</button>
+      <button id="ck-yes" class="btn btn-sm" type="button">Accept all</button>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var bar = document.getElementById('cookiebar');
+  var saved = null;
+  try { saved = localStorage.getItem('utm.consent'); } catch (e) { return; }
+  if (!saved) bar.hidden = false;
+  function choose(v){
+    try { localStorage.setItem('utm.consent', v); } catch (e) {}
+    bar.hidden = true;
+    if (v === 'all' && window.gtag) gtag('consent', 'update', { ad_storage: 'granted', analytics_storage: 'granted' });
+  }
+  document.getElementById('ck-yes').addEventListener('click', function(){ choose('all'); });
+  document.getElementById('ck-no').addEventListener('click', function(){ choose('essential'); });
+})();
+</script>
 </body>
 </html>`;
 }
 
 function page(o) { return head(o) + o.body + foot(); }
 
-module.exports = { SITE, md, frontMatter, page, amconBanner, AD_INLINE, LOGO, OUT, CONTENT };
+module.exports = { SITE, md, frontMatter, page, amconBanner, adUnit, AD_INLINE, LOGO, OUT, CONTENT };
 
 if (require.main === module) require('./pages.js').build();

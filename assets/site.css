@@ -106,15 +106,23 @@ section{padding:56px 0}
 .step p{font-size:14.5px;color:#B9BFD6;margin:0}
 
 /* ads */
-.ad{margin:34px 0;min-height:100px;display:block}
+.ad{margin:34px 0;display:block}
 .ad-inline{padding:6px 0}
+/* An advert that Google does not fill must take up no space at all. */
+.ad ins[data-ad-status="unfilled"]{display:none!important}
+.ad:has(ins[data-ad-status="unfilled"]){display:none!important}
+.ad:empty{display:none}
 .ad-label{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;
   color:#B4BACB;margin-bottom:6px;text-align:center}
 
 /* amcon banner */
 .amcon{border:1px solid var(--accent-line);background:linear-gradient(135deg,var(--accent-soft) 0%,#F7F6FE 100%);
-  border-radius:13px;padding:26px;margin:38px 0}
-.amcon-wide{display:block}
+  border-radius:13px;padding:26px;margin:38px 0;display:flex;gap:20px;align-items:flex-start}
+.amcon-logo{width:64px;height:64px;border-radius:15px;flex:none;display:block;
+  box-shadow:0 6px 18px -8px rgba(23,26,43,.45)}
+.amcon-body{min-width:0}
+.amcon-wide{padding:32px}
+.amcon-wide .amcon-logo{width:76px;height:76px;border-radius:18px}
 .amcon-kicker{font-family:var(--mono);font-size:11px;letter-spacing:.13em;text-transform:uppercase;
   color:var(--accent);margin-bottom:5px}
 .amcon-name{font-family:var(--display);font-weight:800;font-size:22px;letter-spacing:-.025em;margin-bottom:9px}
@@ -202,3 +210,14 @@ section{padding:56px 0}
   .shot-row .d,.shot-tot .d{display:none}
 }
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+
+/* cookie bar */
+.cookiebar{position:fixed;left:0;right:0;bottom:0;z-index:80;background:var(--card);
+  border-top:1px solid var(--rule);box-shadow:0 -10px 34px -20px rgba(23,26,43,.5)}
+.cookiebar[hidden]{display:none}
+.cookiebar-in{max-width:var(--max);margin:0 auto;padding:16px 22px;display:flex;
+  align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.cookiebar p{margin:0;font-size:14px;color:var(--muted);max-width:74ch}
+.cookiebar-btns{display:flex;gap:9px;flex-shrink:0}
+@media(max-width:620px){.cookiebar-in{padding:14px 18px}.cookiebar-btns{width:100%}
+  .cookiebar-btns .btn{flex:1;text-align:center}}

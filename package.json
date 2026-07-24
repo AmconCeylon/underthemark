@@ -1,0 +1,12 @@
+{
+  "name": "underthemark-site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "underthemark.com — static site generator",
+  "scripts": {
+    "build": "node build.js",
+    "verify": "node build.js && node verify.js",
+    "preview": "node build.js && npx --yes serve dist"
+  },
+  "devDependencies": { "jsdom": "^24.0.0" }
+}
