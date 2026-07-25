@@ -216,7 +216,7 @@ function extensionPage() {
   <h1 style="font-size:clamp(32px,4.4vw,46px);font-weight:800;margin-bottom:16px">Catch spending the moment it happens</h1>
   <p class="art-lede">A bank statement tells you three weeks late. The extension tells you the same
     afternoon, while you can still do something about it.</p>
-  <p><a class="btn" href="${SITE.extension}">Add to Chrome &mdash; free</a></p>
+  <p><a class="btn" href="${SITE.extension}" target="_blank" rel="noopener">Add to Chrome &mdash; free</a></p>
 
   <div class="prose">
     <h2>Two ways to use it</h2>
@@ -255,6 +255,9 @@ function extensionPage() {
     </ul>
   </div>
 
+  <div class="cta-band" style="margin-top:44px"><h2>Add it to Chrome</h2>
+    <p>Free, and it asks for no access to any site until you choose one.</p>
+    <a class="btn" href="${SITE.extension}" target="_blank" rel="noopener">Add to Chrome</a></div>
   ${amconBanner('inline')}
 </div></section>`;
   return page({
@@ -340,6 +343,7 @@ function privacy() {
     body
   });
 }
+
 
 
 /* ---------- policy and company pages ---------- */
@@ -651,6 +655,56 @@ function disclaimer() {
   });
 }
 
+
+/* ---------- demo order confirmation ----------
+   Lets anyone — including a store reviewer — see the detector work without
+   buying anything. Deliberately kept out of the search index. */
+function demoCheckout() {
+  return page({
+    path: '/demo-order-confirmation/',
+    noindex: true,
+    title: 'Demo order confirmation — Under the Mark',
+    description: 'A sample order confirmation page for testing the Under the Mark Chrome extension. No purchase is involved and no payment is taken.',
+    body: `<section><div class="wrap" style="max-width:760px">
+      <div class="note" style="margin-bottom:26px"><b>This is a demonstration page.</b>
+        Nothing has been bought and no payment has been taken. It exists so you can watch the
+        Chrome extension detect an order total without spending anything.</div>
+
+      <div class="card"><div class="card-b" style="padding:32px">
+        <div style="font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;
+          color:var(--faint);margin-bottom:22px">Example Store</div>
+        <h1 style="font-size:30px;font-weight:800;margin-bottom:8px">Thank you for your order</h1>
+        <p style="color:var(--muted);margin:0 0 28px">Order number 10294. A receipt is on its way to
+          your email address.</p>
+        <div class="tw"><table style="max-width:420px">
+          <tbody>
+            <tr><td>Subtotal</td><td class="num" style="text-align:right">$48.00</td></tr>
+            <tr><td>Shipping</td><td class="num" style="text-align:right">$5.99</td></tr>
+            <tr><td>Tax</td><td class="num" style="text-align:right">$0.21</td></tr>
+            <tr><td style="font-weight:700;border-top:2px solid var(--rule)">Order Total</td>
+                <td class="num" style="text-align:right;font-weight:700;border-top:2px solid var(--rule)">$54.20</td></tr>
+          </tbody>
+        </table></div>
+      </div></div>
+
+      <div class="card"><div class="card-h"><h3>How to use this page</h3></div>
+        <div class="card-b prose" style="font-size:16px">
+          <ul>
+            <li>Install the extension and open its Settings.</li>
+            <li>Under <b>Watch for purchases automatically</b>, add <code>underthemark.com</code>
+              and allow access.</li>
+            <li>Reload this page. Within a couple of seconds a panel appears at the bottom right
+              offering to save $54.20.</li>
+            <li>Press <b>Save it</b>, then open <a href="/app/">the app</a> and look at the
+              Purchase inbox. It will be waiting for approval.</li>
+          </ul>
+          <p>Nothing is transmitted at any point. The amount is read from this page in your browser
+            and stored on your device.</p>
+        </div></div>
+    </div></section>`
+  });
+}
+
 /* ---------- articles ---------- */
 function loadArticles() {
   if (!fs.existsSync(CONTENT)) return [];
@@ -802,6 +856,7 @@ function build() {
   write('terms', terms());
   write('cookies', cookies());
   write('disclaimer', disclaimer());
+  write('demo-order-confirmation', demoCheckout());
   write('articles', articleIndex());
   articles.forEach(a => write(path.join('articles', a.slug), articlePage(a, articles)));
 
@@ -868,11 +923,33 @@ self.addEventListener('fetch', e => {
 
   const urls = ['/', '/app/', '/how-it-works/', '/chrome-extension/', '/articles/',
     '/about/', '/contact/', '/privacy/', '/cookies/', '/terms/', '/disclaimer/']
+    // /demo-order-confirmation/ is intentionally excluded — it is noindex
     .concat(articles.map(a => '/articles/' + a.slug + '/'));
+  // lastmod tells Google what has actually changed. Articles use their own
+  // modified date; everything else uses the build date.
+  const today = new Date().toISOString().slice(0, 10);
+  const modOf = u => {
+    const m = u.match(/^\/articles\/(.+)\/$/);
+    if (!m) return today;
+    const a = articles.find(x => x.slug === m[1]);
+    return (a && (a.meta.modified || a.meta.published)) || today;
+  };
+  const prioOf = u => {
+    if (u === '/') return '1.0';
+    if (u === '/app/' || u.startsWith('/articles/')) return '0.8';
+    if (['/how-it-works/', '/chrome-extension/'].includes(u)) return '0.7';
+    return '0.4';                                  // policy pages
+  };
+  const freqOf = u => (u === '/' || u === '/articles/') ? 'weekly' : 'monthly';
+
   fs.writeFileSync(path.join(OUT, 'sitemap.xml'),
     '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
-    urls.map(u => `  <url><loc>${SITE.domain}${u}</loc><changefreq>monthly</changefreq>` +
-      `<priority>${u === '/' ? '1.0' : '0.7'}</priority></url>`).join('\n') + '\n</urlset>\n');
+    urls.map(u =>
+      `  <url>\n    <loc>${SITE.domain}${u}</loc>\n` +
+      `    <lastmod>${modOf(u)}</lastmod>\n` +
+      `    <changefreq>${freqOf(u)}</changefreq>\n` +
+      `    <priority>${prioOf(u)}</priority>\n  </url>`).join('\n') +
+    '\n</urlset>\n');
   fs.writeFileSync(path.join(OUT, 'robots.txt'),
     `User-agent: *\nAllow: /\n\nSitemap: ${SITE.domain}/sitemap.xml\n`);
   fs.writeFileSync(path.join(OUT, 'ads.txt'),

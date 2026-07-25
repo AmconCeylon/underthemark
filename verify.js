@@ -16,9 +16,28 @@ function pages(dir,acc){
   });
   return acc;
 }
-const all=pages(OUT);
+const everything=pages(OUT);
+// The demo checkout is a deliberately noindexed test fixture, not a page of the
+// site. It is checked separately below.
+const DEMO=path.join(OUT,'demo-order-confirmation','index.html');
+const all=everything.filter(f=>f!==DEMO);
 const APP='/app/';
 const list=all.filter(f=>!f.includes(path.sep+'app'+path.sep));
+
+/* --- the fixture used for capturing store screenshots --- */
+{
+  ok('demo checkout exists',fs.existsSync(DEMO));
+  const h=fs.readFileSync(DEMO,'utf8');
+  ok('demo checkout is noindexed',/content="noindex/.test(h),'it must never rank');
+  ok('demo checkout looks like a confirmation',
+     /Thank you for your order/.test(h)&&/Order Total/.test(h));
+  ok('demo checkout has a findable total',/\$54\.20/.test(h));
+  ok('demo checkout says it is a demo',/demonstration page/i.test(h),
+     'it must not pretend to be a real purchase');
+  ok('demo checkout explains how to test it',/Watch for purchases automatically/.test(h));
+  ok('demo checkout kept out of the sitemap',
+     !fs.readFileSync(path.join(OUT,'sitemap.xml'),'utf8').includes('demo-order-confirmation'));
+}
 ok('all marketing pages built',list.length===14,list.length);
 ok('app page built',all.length===15,all.length);
 
@@ -280,10 +299,24 @@ required.forEach(p=>{
 
 // --- sitemap, robots, ads.txt ---
 const sm=fs.readFileSync(path.join(OUT,'sitemap.xml'),'utf8');
-ok('sitemap lists every page',all.length===(sm.match(/<loc>/g)||[]).length,
-   (sm.match(/<loc>/g)||[]).length+' vs '+all.length);
+ok('sitemap lists every indexable page',all.length===(sm.match(/<loc>/g)||[]).length,
+   (sm.match(/<loc>/g)||[]).length+' in sitemap vs '+all.length+' indexable pages');
 ok('sitemap includes the app',sm.includes(SITE+'/app/'));
 ok('sitemap urls absolute',!/<loc>(?!https:\/\/underthemark\.com)/.test(sm));
+ok('sitemap is valid xml',/^<\?xml version="1\.0" encoding="UTF-8"\?>/.test(sm)&&
+   sm.trim().endsWith('</urlset>'));
+ok('every entry has lastmod',
+   (sm.match(/<loc>/g)||[]).length===(sm.match(/<lastmod>/g)||[]).length,
+   (sm.match(/<lastmod>/g)||[]).length+' lastmod for '+(sm.match(/<loc>/g)||[]).length+' urls');
+ok('lastmod dates are valid',
+   (sm.match(/<lastmod>([^<]+)<\/lastmod>/g)||[]).every(m=>/\d{4}-\d{2}-\d{2}/.test(m)));
+ok('homepage has top priority',/<loc>https:\/\/underthemark\.com\/<\/loc>\s*<lastmod>[^<]*<\/lastmod>\s*<changefreq>[^<]*<\/changefreq>\s*<priority>1\.0<\/priority>/.test(sm));
+ok('articles rank above policy pages',
+   /articles\/cancel-subscriptions\/<\/loc>[\s\S]{0,120}<priority>0\.8/.test(sm)&&
+   /\/terms\/<\/loc>[\s\S]{0,120}<priority>0\.4/.test(sm));
+ok('no trailing-slash inconsistency',
+   !(sm.match(/<loc>[^<]*[^/]<\/loc>/g)||[]).length,
+   (sm.match(/<loc>[^<]*[^/]<\/loc>/g)||[]).join(' '));
 const rb=fs.readFileSync(path.join(OUT,'robots.txt'),'utf8');
 ok('robots allows crawling',/Allow: \//.test(rb)&&!/Disallow: \/$/m.test(rb));
 ok('robots points at sitemap',rb.includes(SITE+'/sitemap.xml'));

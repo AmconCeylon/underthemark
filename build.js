@@ -15,7 +15,8 @@ const SITE = {
   // numeric slot IDs here. While blank, no manual unit is rendered at all,
   // so there are no empty gaps. Auto ads still run from the page-level script.
   adslots: { inline: '', sidebar: '' },
-  extension: 'https://chromewebstore.google.com/',
+  extension: 'https://chromewebstore.google.com/detail/under-the-mark-quick-add/aeepeplpjldabcmlabhmcblfajiglamp',
+  extensionId: 'aeepeplpjldabcmlabhmcblfajiglamp',
   app: '/app/',
   amcon: 'https://amconceylon.co'
 };
@@ -170,7 +171,7 @@ function head(o) {
 <title>${o.title}</title>
 <meta name="description" content="${o.description}">
 <meta name="google-adsense-account" content="${SITE.adsense}">
-<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="robots" content="${o.noindex ? 'noindex, nofollow' : 'index, follow, max-image-preview:large'}">
 <link rel="canonical" href="${url}">
 <link rel="icon" href="${FAVICON}">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
